@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Moda</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="quiz-container tipo1">
+        <button class="close-button" aria-label="Fechar" title="Fechar" onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}">&times;</button>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <div class="quiz-header">
+            <div class="emoji-container" id="headerEmoji"></div>
+            <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_12_16_06_59_Quiz_Fashion_Expert.png" alt="Quiz Fashion Expert">
+            <!-- <h2>Quiz Fashion Expert</h2> -->
+        </div>
+
+        <div class="question-counter" id="questionCounter">Pergunta 1 de 3</div>
+
+        <div id="quiz"></div>
+
+        <div id="feedback"></div>
+
+        <button id="nextBtn" class="action-button" style="display:none;">Próxima Pergunta →</button>
+        <button id="restartBtn" class="action-button" style="display:none;">Jogar Novamente</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
