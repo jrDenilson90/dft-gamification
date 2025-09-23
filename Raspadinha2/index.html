@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Raspadinha Fashion</title>
+    <link rel="stylesheet" href="https://use.typekit.net/qlb7ola.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="scratch-container">
+        <div class="close-button" id="closeButton">✖</div>
+        <div class="header">
+            <div class="sparkle"><img
+                    src="https://braze-images.com/appboy/communication/assets/svg_assets/files/68d1c2080b01300063a9122a/original.svg?1758577160"
+                    ;=""></div>
+            <h1>Raspadinha Fashion</h1>
+            <div class="header-message-container">
+                <p id="headerMessage" class="header-message-text">Raspe e descubra seu prêmio!</p>
+                <div id="resultMessage" class="result-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="scratch-card" id="scratchCard">
+            <div class="prize-layer" id="prizeLayer">
+                <div class="prize-text">
+                    <div id="prizeText1"></div>
+                    <div id="prizeText2"></div>
+                </div>
+                <div class="prize-code" id="prizeCode"></div>
+            </div>
+
+            <div class="scratch-layer" id="scratchLayer">
+                <div class="scratch-instruction">Raspe aqui!</div>
+                <div class="scratch-icon">👆</div>
+            </div>
+
+            <canvas class="canvas-overlay" id="scratchCanvas"></canvas>
+        </div>
+
+        <div class="coupon-image-container" id="couponImageContainer">
+            <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/68d1c34209d96d0065bec87d/original.png?1758577473" alt="Cupón de Descuento"
+                class="coupon-image">
+            <div class="coupon-code" id="couponCodeText"></div>
+        </div>
+
+        <p id="couponHintText" class="hint-text" style="display: none;">*Válido por 48 horas!</p>
+
+        <div class="progress-text" id="progressText">Progresso da raspagem:</div>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="hintText" class="hint-text">💡 Dica: Raspe pelo menos 60% para revelar o prêmio!</div>
+
+        <div class="fashion-icons">
+            <span>✨</span>
+            <span>🌟</span>
+            <span>💫</span>
+            <span>⭐</span>
+        </div>
+
+        <button class="play-again-btn" id="playAgainBtn">
+            Jogar Novamente
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
