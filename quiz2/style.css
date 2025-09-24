@@ -15,7 +15,6 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
     overflow: hidden;
 }
 
@@ -291,7 +290,8 @@ b {
 }
 
 .cupom .trophy-emoji {
-    max-width: 90%;
+    width: 100%;
+    max-width: 85%;
     animation: none;
     margin: 0;
 }

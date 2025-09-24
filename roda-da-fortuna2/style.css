@@ -17,7 +17,7 @@ body {
 }
 
 .quiz-container {
-    background-color: #7B7573;
+    background-color: #000000;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
@@ -95,7 +95,7 @@ header .heading-text p {
 }
 
 header .heading-text .infoChanges {
-    color: #FFE85E;
+    color: #ffffff;
     font-weight: 300;
     font-size: 14px;
     margin-top: 1em;
@@ -127,11 +127,11 @@ header .heading-text .feedback .boxCupom img {
 header .heading-text .feedback .boxCupom .text .copy {
     z-index: 1;
     position: relative;
-    margin: 0;
     color: #000000;
     text-transform: uppercase;
     display: flex;
     justify-content: center;
+    font-size: 18px;
     font-weight: 700;
 }
 
@@ -259,9 +259,9 @@ header .heading-text .feedback .subtext {
 .spin-button {
     align-items: center;
     border-radius: 50px;
-    background-color: #000000;
+    background-color: #ffffff;
     border: none;
-    color: #ffffff;
+    color: #000000;
     cursor: pointer;
     display: flex;
     font-family: "Poppins", sans-serif;
@@ -304,7 +304,7 @@ header .heading-text .feedback .subtext {
     top: 0;
     width: 8px;
     height: 8px;
-    background: #667eea;
+    background: #E73670;
     animation: confettiFall 3s linear;
     pointer-events: none;
 }
