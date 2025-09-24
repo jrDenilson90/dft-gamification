@@ -7,22 +7,25 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
     overflow: hidden;
 }
 
-.modal-container {
+.quiz-container {
     background-color: #7B7573;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    padding: 5px 20px;
     width: 90%;
-    height: 90%;
-    max-width: 378px;
-    max-height: 720px;
-    display: flex;
-    flex-direction: column;
-    border-radius: 20px;
-    margin: auto;
-    overflow: hidden;
+    max-width: 320px;
+    text-align: center;
     position: relative;
+    animation: slideIn 0.5s ease-out;
+    height: 675px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    overflow-x: hidden;
 }
 
 .close-button {
@@ -43,6 +46,7 @@ body {
     justify-content: center;
     transition: all 0.2s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .close-button:hover {
@@ -60,28 +64,39 @@ header {
     padding-top: 12px;
 }
 
-header .logo svg {
-    width: 100px;
+header .logo {
+    width: 80px;
     height: auto;
 }
 
-header .title svg {
-    width: 200px;
+header .title {
+    width: 130px;
     height: auto;
 }
 
-header .heading-text h1,
-header .heading-text h2 {
+header .heading-text {
+    width: 100%;
+}
+
+header .heading-text p {
     color: #ffffff;
     font-family: "Poppins", sans-serif;
     font-size: 16px;
-    font-weight: 400;
-    line-height: 25px;
+    font-weight: 600;
+    line-height: 1.4;
     text-align: center;
+    margin: 0;
 }
 
-header .heading-text h2 {
+header .heading-text .infoChanges {
     color: #FFE85E;
+    font-weight: 300;
+    font-size: 14px;
+    margin-top: 1em;
+}
+
+header .heading-text .feedback {
+    width: 100%;
 }
 
 header .heading-text .feedback .boxCupom {
@@ -89,20 +104,101 @@ header .heading-text .feedback .boxCupom {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 30px auto;
+    cursor: pointer;
+    width: 100%;
 }
 
 header .heading-text .feedback .boxCupom img {
     position: absolute;
+    max-width: 90%;
 }
 
-header .heading-text .feedback .boxCupom p {
-    position: relative;
+header .heading-text .feedback .boxCupom .text .copy {
     z-index: 1;
-}
-
-header .heading-text .feedback .boxCupom .text p {
+    position: relative;
     margin: 0;
     color: #000000;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+}
+
+.copy.copied::after {
+    content: "Copiado!";
+    text-transform: capitalize;
+    position: absolute;
+    top: -30px;
+    background-color: rgb(89 89 89);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    animation: copiedFade 2400ms ease forwards;
+    text-align: center;
+}
+
+.copy.copied::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    background-color: rgb(89 89 89);
+    transform: rotate(45deg);
+    top: -25px;
+    animation: copiedFadeBefore 2400ms ease forwards;
+    opacity: 0;
+}
+
+@keyframes copiedFade {
+    0% {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    15% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    85% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+}
+
+@keyframes copiedFadeBefore {
+    0% {
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+header .heading-text .feedback .subtext {
+    font-size: 12px;
+    font-weight: 300;
 }
 
 .content-area {
@@ -124,17 +220,13 @@ header .heading-text .feedback .boxCupom .text p {
 }
 
 .wheel {
-    /* background-color: #0005; */
     width: 350px;
-    /* height: auto; */
-    /* aspect-ratio: 1/1; */
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .wheel img {
-    /* background-color: #0005; */
     height: 100%;
     object-fit: cover;
 }
@@ -144,7 +236,6 @@ header .heading-text .feedback .boxCupom .text p {
     inset: 0 auto auto auto;
     margin: auto;
     z-index: 1;
-    /* z-index: 2; */
 }
 
 .pointer svg {
@@ -164,13 +255,14 @@ header .heading-text .feedback .boxCupom .text p {
     display: flex;
     font-family: "Poppins", sans-serif;
     font-size: 12px;
-    font-weight: 400;
+    font-weight: 300;
     height: 35px;
     justify-content: center;
     letter-spacing: 1.1px;
     text-transform: uppercase;
     transition: opacity 0.3s ease-out, transform 0.2s, box-shadow 0.2s;
-    width: 148px;
+    min-width: 148px;
+    padding: 5px 20px;
 }
 
 .spin-button:hover:not(:disabled) {
@@ -180,28 +272,6 @@ header .heading-text .feedback .boxCupom .text p {
 .spin-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-}
-
-.result-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* --- AJUSTE DE ESTILO --- */
-    background: transparent;
-    /* Garante fundo transparente */
-    backdrop-filter: none;
-    /* Remove o efeito de vidro fosco */
-    /* --- FIM DO AJUSTE --- */
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 20px;
-    z-index: 20;
-    animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes fadeIn {
@@ -216,4 +286,21 @@ header .heading-text .feedback .boxCupom .text p {
 
 .hide {
     display: none;
+}
+
+.confetti {
+    position: absolute;
+    top: 0;
+    width: 8px;
+    height: 8px;
+    background: #667eea;
+    animation: confettiFall 3s linear;
+    pointer-events: none;
+}
+
+@keyframes confettiFall {
+    to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
 }

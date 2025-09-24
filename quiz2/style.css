@@ -343,26 +343,22 @@ b {
     user-select: none;
     position: relative;
     color: #ffffff;
-}
-
-.copy.copied {
-    opacity: .8;
+    display: flex;
+    justify-content: center;
 }
 
 .copy.copied::after {
     content: "Copiado!";
+    text-transform: capitalize;
     position: absolute;
-    display: flex;
-    justify-content: center;
-    top: -25px;
-    left: 22px;
-    background-color: rgb(43, 234, 43);
+    top: -30px;
+    background-color: rgb(89 89 89);
     color: #fff;
     font-size: 12px;
+    font-weight: 300;
     line-height: 1;
-    padding: 6px 8px;
+    padding: 6px 10px;
     border-radius: 6px;
-    /* box-shadow: 0 4px 10px rgba(16, 185, 129, .35); */
     opacity: 0;
     transform: translateY(-6px);
     pointer-events: none;
@@ -370,7 +366,19 @@ b {
     text-align: center;
 }
 
-/* Animação de entrada/saída */
+.copy.copied::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 0;
+    background-color: rgb(89 89 89);
+    transform: rotate(45deg);
+    top: -25px;
+    animation: copiedFadeBefore 2400ms ease forwards;
+    opacity: 0;
+}
+
 @keyframes copiedFade {
     0% {
         opacity: 0;
@@ -390,6 +398,24 @@ b {
     100% {
         opacity: 0;
         transform: translateY(-6px);
+    }
+}
+
+@keyframes copiedFadeBefore {
+    0% {
+        opacity: 0;
+    }
+
+    15% {
+        opacity: 1;
+    }
+
+    85% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
     }
 }
 

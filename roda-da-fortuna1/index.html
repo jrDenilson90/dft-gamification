@@ -15,32 +15,26 @@
 </head>
 
 <body>
-    <div class="modal-container">
-        <button class="close-button" aria-label="Fechar" title="Fechar"
-            onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}">&times;</button>
+    <div class="quiz-container">
+        <button class="close-button" aria-label="Fechar" title="Fechar" onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}">&times;</button>
 
         <header>
-            <div class="logo">
-                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_11_15_33_Group_26653583.png" alt="">
-            </div>
-
-            <div class="title">
-                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_11_13_58_Roda_da_Fortuna.svg" alt="">
-            </div>
+            <img class="logo" src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_11_15_33_Group_26653583.png" alt="Logotipo dafiti">
+            <img class="title" src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_11_13_58_Roda_da_Fortuna.svg" alt="">
 
             <div class="heading-text">
-                <h1 class="text-orint">Gire a ganhe prêmios incríveis!</h1>
+                <p class="text-orint">Gire a ganhe prêmios incríveis!</p>
                 <div class="feedback hide">
+                    <p>Você ganhou!</p>
                     <div class="boxCupom">
                         <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_11_17_23_57_Subtract.png" alt="">
                         <div class="text">
-                            <p><b>seu premio</b></p>
-                            <p><span>$$$</span></p>
+                            <p class="copy"><span>$$$</span></p>
                         </div>
                     </div>
-                    <p>*Válido na sua próxima compra!</p>
+                    <p class="subtext">*Válido na sua próxima compra!</p>
                 </div>
-                <h2>Giros restantes: <span class="chances">2</span></h2>
+                <p class="infoChanges">Giros restantes: <span class="chances">2</span></p>
             </div>
         </header>
 
