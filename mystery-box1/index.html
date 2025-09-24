@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery Box Fashion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="mystery-container">
+        <div class="header">
+            <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_06_57_Mystery_Box.png" alt="Mystery Box">
+            <p>Escolha sua caixa e descubra o prêmio!</p>
+        </div>
+
+        <div class="tries-counter" id="triesCounter">
+            Caixas restantes: 3
+        </div>
+
+        <!-- Seleção de Caixas -->
+        <div class="box-selection" id="boxSelection">
+            <div class="mystery-box box-bronze" data-type="bronze">
+                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_44_08_box-brisa.png" alt="Caixa Brisa Coral">
+            </div>
+            
+            <div class="mystery-box box-silver" data-type="silver">
+                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_44_10_box-ceu.png" alt="Caixa Céu Radiante">
+            </div>
+            
+            <div class="mystery-box box-gold" data-type="gold">
+                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_44_13_box-sol.png" alt="Caixa Sol Laranja">
+            </div>
+
+            <div class="mystery-box box-diamond" data-type="diamond">
+                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_44_12_box-esmeralda.png" alt="Caixa Oásis Esmeralda">
+            </div>
+        </div>
+
+        <div class="instruction-text">💡 Caixas melhores têm prêmios mais raros!</div>
+
+        <!-- Animação de Abertura -->
+        <div class="opening-animation" id="openingAnimation" style="display: none;">
+            <div class="box-3d" id="box3d">
+                <div class="box-front" id="boxFront">📦</div>
+                <div class="box-lid" id="boxLid">📦</div>
+                <div class="prize-reveal" id="prizeReveal">
+                    <div class="prize-emoji" id="prizeEmoji">🎁</div>
+                </div>
+            </div>
+
+            <button class="open-button" id="openButton">
+                🔓 Abrir Caixa!
+            </button>
+        </div>
+
+        <!-- Resultado -->
+        <div class="result-message" id="resultMessage"></div>
+
+        <button class="new-box-btn" id="newBoxBtn" style="display: none;">
+            📦 Nova Caixa
+        </button>
+
+        <div class="fashion-icons">
+            <span>✨</span>
+            <span>🌟</span>
+            <span>💫</span>
+            <span>⭐</span>
+        </div>
+
+        <button class="play-again-btn" id="playAgainBtn" style="display: none;">
+            🔄 Jogar Novamente
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

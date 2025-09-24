@@ -1,183 +1,227 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const header = document.querySelector(".header");
-  const wheelWrapper = document.querySelector(".wheel-wrapper");
-  const wheel = document.getElementById("wheel");
-  const wheelSVG = document.getElementById("wheel-svg");
-  const spinButton = document.getElementById("spin-button");
-  const resultOverlay = document.getElementById("result-overlay");
-  const resultTitle = document.getElementById("result-title");
-  const resultDescription = document.getElementById("result-description");
-  const couponCodeDiv = document.getElementById("coupon-code");
-  const ctaButton = document.getElementById("cta-button");
+// Roda da Fortuna – JS com UI de feedback (sem alert) + cópia e "resgatado!"
+// Atualização pedida: ao clicar em "Girar novamente!", o bloco .feedback volta a ter a classe "hide".
 
-  const segments = [
-    {
-      text: "R$ 5",
-      color: "#FFD93D",
-      isJackpot: false,
-      probability: 35,
-      code: "RODA5",
-      ctaText: "Usar R$ 5 agora",
-    },
-    {
-      text: "R$ 10",
-      color: "#F6B800",
-      isJackpot: false,
-      probability: 25,
-      code: "RODA10",
-      ctaText: "Usar R$ 10 agora",
-    },
-    {
-      text: "R$ 2",
-      color: "#FFD93D",
-      isJackpot: false,
-      probability: 15,
-      code: "RODA2",
-      ctaText: "Usar R$ 2 agora",
-    },
-    {
-      text: "R$ 200",
-      color: "#3083DC",
-      isJackpot: true,
-      probability: 2,
-      code: "RODA200",
-      ctaText: "Pegar meu prêmio!",
-    },
-    {
-      text: "R$ 20",
-      color: "#F6B800",
-      isJackpot: false,
-      probability: 8,
-      code: "RODA20",
-      ctaText: "Usar R$ 20 agora",
-    },
-    {
-      text: "R$ 3",
-      color: "#FFD93D",
-      isJackpot: false,
-      probability: 15,
-      code: "RODA3",
-      ctaText: "Usar R$ 3 agora",
-    },
-  ];
+// ====== CONFIGURAÇÃO ======
+const MIN_TURNS = 5;
+const EXTRA_TURNS_MAX = 2;
+const DURATION_MS = 4500;
+const EASING = "cubic-bezier(0.15, 0.85, 0.15, 1)";
+const SECTORS = 6;
+const SECTOR_SIZE = 360 / SECTORS;
+const OFFSET_DEG = 0;
 
-  let isSpinning = false;
-  let accumulatedAngle = 0;
+const FEEDBACKS = [
+  "Feedback A",
+  "Feedback B",
+  "Feedback C", // <- Setor 3 (1-based) — não consome chance
+  "Feedback D",
+  "Feedback E",
+  "Feedback F",
+];
 
-  function createWheel() {
-    const numSegments = segments.length;
-    const anglePerSegment = 360 / numSegments;
-    const center = 150;
-    const radius = 150;
+// ====== ELEMENTOS ======
+const wheelImg = document.querySelector(".roleta img");
+const spinBtn = document.getElementById("spin-button");
+const chancesEl = document.querySelector(".chances");
 
-    segments.forEach((segment, i) => {
-      const startAngle = i * anglePerSegment;
+// Elementos de feedback no HTML enviado
+const feedbackWrap = document.querySelector(".feedback");
+const boxCupom = document.querySelector(".boxCupom");
+const boxCupomSpan = document.querySelector(".boxCupom p span");
 
-      const path = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "path"
-      );
-      path.setAttribute(
-        "d",
-        getSegmentPath(center, radius, startAngle, anglePerSegment)
-      );
-      path.setAttribute("fill", segment.color);
-      wheelSVG.appendChild(path);
+// ====== ESTADO ======
+let isSpinning = false;
+let currentRotation = 0;
+let lastFeedbackText = ""; // armazena o texto do último feedback para cópia
 
-      const text = document.createElementNS(
-        "http://www.w3.org/2000/svg",
-        "text"
-      );
-      const textAngle = startAngle + anglePerSegment / 2;
-      const textPos = getPositionOnCircle(center, radius * 0.6, textAngle - 90);
-      text.setAttribute("x", textPos.x);
-      text.setAttribute("y", textPos.y);
-      text.setAttribute(
-        "transform",
-        `rotate(${textAngle}, ${textPos.x}, ${textPos.y})`
-      );
-      text.style.fill = segment.isJackpot ? "#FFFFFF" : "#000000";
-      text.textContent = segment.text;
-      wheelSVG.appendChild(text);
-    });
+// ====== ESTADO DA ANIMAÇÃO DO BOTÃO ======
+let spinDotsTimer = null;
+let spinDotsStep = 0;
+const BTN_TEXT_IDLE = "Girar Roda!";
+const BTN_TEXT_SPIN_BASE = "Girando";
+const BTN_TEXT_AGAIN = "Girar novamente!";
+const BTN_TEXT_NO_CHANCES = "Sem giros";
+
+// ====== FUNÇÕES AUXILIARES ======
+function normalizeDeg(deg) {
+  let d = deg % 360;
+  if (d < 0) d += 360;
+  return d;
+}
+function getSectorIndex(finalDeg) {
+  const aligned = normalizeDeg(finalDeg - OFFSET_DEG);
+  return Math.floor(aligned / SECTOR_SIZE); // 0..5
+}
+
+// Chances
+function getChances() {
+  if (!chancesEl) return Infinity;
+  const n = parseInt(chancesEl.textContent.trim(), 10);
+  return Number.isFinite(n) ? n : 0;
+}
+function setChances(n) {
+  if (!chancesEl) return;
+  const val = Math.max(0, Math.floor(n));
+  chancesEl.textContent = String(val);
+  enableButton(val > 0 && !isSpinning);
+}
+
+// Botão habilitar/desabilitar
+function enableButton(enabled) {
+  if (!spinBtn) return;
+  spinBtn.disabled = !enabled;
+  spinBtn.style.opacity = enabled ? "1" : "0.6";
+  spinBtn.style.cursor = enabled ? "pointer" : "not-allowed";
+}
+
+// Atualiza texto do botão
+function setButtonText(text) {
+  if (!spinBtn) return;
+  spinBtn.textContent = text;
+}
+
+// Pontinhos com largura fixa (3 colunas) usando NBSP para não "andar"
+function fixedDots(step) {
+  const dots = ".".repeat(step);      // 0..3
+  const nbsp = "\u00A0".repeat(3 - step);
+  return dots + nbsp;
+}
+
+// Inicia animação "Girando..."
+function startButtonSpinningText() {
+  stopButtonSpinningText();
+  spinDotsStep = 0;
+  setButtonText(`${BTN_TEXT_SPIN_BASE}${fixedDots(3)}`);
+  spinDotsTimer = setInterval(() => {
+    spinDotsStep = (spinDotsStep + 1) % 4; // 0..3
+    setButtonText(`${BTN_TEXT_SPIN_BASE}${fixedDots(spinDotsStep)}`);
+  }, 350);
+}
+
+// Para animação e ajusta rótulo final
+function stopButtonSpinningText(hasChancesLeft) {
+  if (spinDotsTimer) {
+    clearInterval(spinDotsTimer);
+    spinDotsTimer = null;
   }
+  setButtonText(hasChancesLeft ? BTN_TEXT_AGAIN : BTN_TEXT_NO_CHANCES);
+}
 
-  function getPositionOnCircle(center, radius, angle) {
-    const angleRad = angle * (Math.PI / 180);
-    return {
-      x: center + radius * Math.cos(angleRad),
-      y: center + radius * Math.sin(angleRad),
-    };
-  }
+// Mostrar bloco de feedback e preencher o span
+function showFeedback(texto) {
+  if (!feedbackWrap || !boxCupomSpan) return;
+  feedbackWrap.classList.remove("hide");
+  boxCupomSpan.textContent = texto;
+  lastFeedbackText = texto;
+}
 
-  function getSegmentPath(center, radius, startAngle, angle) {
-    const start = getPositionOnCircle(center, radius, startAngle - 90);
-    const end = getPositionOnCircle(center, radius, startAngle + angle - 90);
-    const largeArcFlag = angle > 180 ? 1 : 0;
-    return `M ${center},${center} L ${start.x},${start.y} A ${radius},${radius} 0 ${largeArcFlag},1 ${end.x},${end.y} Z`;
-  }
+// NOVO: esconder o bloco de feedback ao iniciar um novo giro
+function hideFeedback() {
+  if (feedbackWrap) feedbackWrap.classList.add("hide");
+}
 
-  function selectPrize() {
-    const totalProbability = segments.reduce(
-      (sum, s) => sum + s.probability,
-      0
-    );
-    let random = Math.random() * totalProbability;
-    for (const segment of segments) {
-      random -= segment.probability;
-      if (random <= 0) return segment;
+// Handler de clique no boxCupom: copia o texto e troca para "resgatado!"
+async function onBoxCupomClick() {
+  if (!boxCupomSpan) return;
+  const toCopy = lastFeedbackText || boxCupomSpan.textContent.trim();
+
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(toCopy);
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = toCopy;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      document.execCommand("copy");
+      document.body.removeChild(ta);
     }
+  } catch (e) {
+    console.warn("Falha ao copiar:", e);
   }
 
-  spinButton.addEventListener("click", () => {
-    if (isSpinning) return;
-    isSpinning = true;
-    spinButton.disabled = true;
-    spinButton.textContent = "Girando...";
+  boxCupomSpan.textContent = "resgatado!";
+}
 
-    const selectedPrize = selectPrize();
-    const prizeIndex = segments.indexOf(selectedPrize);
-    const segmentAngle = 360 / segments.length;
-    const targetAngleInSegment = segmentAngle / 2;
-    const targetAngle = prizeIndex * segmentAngle + targetAngleInSegment;
+// ====== INICIALIZAÇÃO ======
+document.addEventListener("DOMContentLoaded", () => {
+  if (chancesEl) setChances(2); // começa mostrando 2 (2 -> 1 -> 0)
+  if (wheelImg) {
+    wheelImg.style.transformOrigin = "50% 50%";
+    wheelImg.style.willChange = "transform";
+  }
+  setButtonText(getChances() > 0 ? BTN_TEXT_IDLE : BTN_TEXT_NO_CHANCES);
+  enableButton(getChances() > 0);
 
-    const randomSpins = 6;
-    const rotationOffset = 360 - targetAngle;
-    const totalRotation = randomSpins * 360 + rotationOffset;
+  if (boxCupom) {
+    boxCupom.addEventListener("click", onBoxCupomClick);
+  }
+});
 
-    accumulatedAngle += totalRotation;
-    wheel.style.transform = `rotate(${accumulatedAngle}deg)`;
+// ====== LÓGICA DO GIRO ======
+function spin() {
+  if (isSpinning) return;
 
-    setTimeout(() => showResult(selectedPrize), 5500);
-  });
-
-  function showResult(prize) {
-    header.style.opacity = "0";
-    wheelWrapper.style.opacity = "0";
-    spinButton.style.opacity = "0";
-
-    resultTitle.textContent = prize.isJackpot
-      ? "🎉 UAU! PARABÉNS! 🎉"
-      : "Você ganhou!";
-    resultDescription.textContent = prize.text;
-    couponCodeDiv.textContent = prize.code;
-    couponCodeDiv.style.display = "block";
-    ctaButton.textContent = prize.ctaText;
-    ctaButton.href = "dafiti://br/home";
-    ctaButton.style.display = "inline-block";
-
-    resultOverlay.style.display = "flex";
+  if (getChances() <= 0) {
+    enableButton(false);
+    setButtonText(BTN_TEXT_NO_CHANCES);
+    return;
   }
 
-  ctaButton.addEventListener("click", () => forceClose());
+  // Ao clicar em "Girar novamente!" (ou primeiro giro), esconder o feedback atual
+  hideFeedback();
 
-  window.forceClose = function () {
-    try {
-      if (window.brazeBridge && window.brazeBridge.closeMessage)
-        window.brazeBridge.closeMessage();
-    } catch (e) {}
-    document.body.style.display = "none";
+  isSpinning = true;
+  enableButton(false);
+  startButtonSpinningText();
+
+  const extraTurns = Math.floor(Math.random() * (EXTRA_TURNS_MAX + 1));
+  const randomLanding = Math.random() * 360;
+  const totalTurns = MIN_TURNS + extraTurns;
+  const deltaRotation = totalTurns * 360 + randomLanding;
+  const targetRotation = currentRotation + deltaRotation;
+
+  wheelImg.style.transition = `transform ${DURATION_MS}ms ${EASING}`;
+  wheelImg.style.transform = `rotate(${targetRotation}deg)`;
+
+  const onEnd = () => {
+    wheelImg.removeEventListener("transitionend", onEnd);
+
+    wheelImg.style.transition = "none";
+    currentRotation = targetRotation;
+    const finalDeg = normalizeDeg(currentRotation);
+
+    const sectorIndex = getSectorIndex(finalDeg); // 0..5
+    const sectorNumber = sectorIndex + 1;         // 1..6
+    const feedbackMsg = FEEDBACKS[sectorIndex] || `Setor ${sectorNumber}`;
+
+    // 1) Mostra o bloco de feedback e preenche o span com o feedback
+    showFeedback(feedbackMsg);
+
+    // 2) Regra de chances: NÃO consome se for setor 3 (1-based)
+    const remaining = getChances();
+    const shouldConsumeChance = sectorNumber !== 3;
+    if (Number.isFinite(remaining) && shouldConsumeChance) {
+      setChances(remaining - 1);
+    }
+
+    // 3) Normaliza ângulo e libera interação
+    currentRotation = normalizeDeg(currentRotation);
+    wheelImg.style.transform = `rotate(${currentRotation}deg)`;
+
+    isSpinning = false;
+
+    const stillHasChances = getChances() > 0;
+    stopButtonSpinningText(stillHasChances);
+    enableButton(stillHasChances);
   };
 
-  createWheel();
-});
+  wheelImg.addEventListener("transitionend", onEnd, { once: true });
+}
+
+if (spinBtn) {
+  spinBtn.addEventListener("click", spin);
+}
