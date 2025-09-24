@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Roleta da Sorte - Dafiti</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <div class="quiz-container">
+        <button class="close-button" aria-label="Fechar" title="Fechar" onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}">&times;</button>
+
+        <header>
+            <img class="logo" src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_11_15_33_Group_26653583.png" alt="Logotipo dafiti">
+            <img class="title" src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_16_33_51_Roda_da_Fortuna.svg" alt="Roda da fortuna">
+
+            <div class="heading-text">
+                <p class="text-orint">Gire a ganhe prêmios incríveis!</p>
+                <div class="feedback hide">
+                    <p>Você ganhou!</p>
+                    <div class="boxCupom">
+                        <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_16_35_19_Subtract.png" alt="">
+                        <div class="text">
+                            <p class="copy"><span>$$$</span></p>
+                        </div>
+                    </div>
+                    <p class="subtext">*Válido na sua próxima compra!</p>
+                </div>
+                <p class="infoChanges">Giros restantes: <span class="chances">2</span></p>
+            </div>
+        </header>
+
+        <div class="content-area">
+            <div class="wheel-wrapper">
+                <div class="pointer">
+                    <svg width="26" height="23" viewBox="0 0 26 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M11.0314 13.9006L5 2.00002C4.1308 0.539889 5.52825 1.00005 7.27353 1.00005H18.7265C20.4717 1.00005 21.8692 0.0398679 21 1.5L14.9686 13.9006C14.0959 15.3665 11.904 15.3665 11.0314 13.9006Z" />
+                    </svg>
+                </div>
+                <div class="wheel roleta">
+                    <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_16_33_09_Group_26653586.svg" alt="">
+                </div>
+            </div>
+            <button class="spin-button" id="spin-button">Girar Roda!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
