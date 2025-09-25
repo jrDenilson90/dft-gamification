@@ -12,39 +12,37 @@
 <body>
 
     <div class="scratch-container">
-        <div class="close-button" id="closeButton">✖</div>
+        <button class="close-button" aria-label="Fechar" title="Fechar"
+            onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}">&times;</button>
         <div class="header">
-            <div class="sparkle"><img
-                    src="https://braze-images.com/appboy/communication/assets/svg_assets/files/68cc33c543f9b200674c8971/original.svg?1758213061"
-                    ;=""></div>
-            <h1>Raspadinha Fashion</h1>
+            <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_25_13_47_49_Raspadinha_fashion.svg" alt=""
+                class="logo">
             <div class="header-message-container">
                 <p id="headerMessage" class="header-message-text">Raspe e descubra seu prêmio!</p>
+                <div class="textPremium hide">
+                    <h2>Parabéns</h2>
+                    <p>você ganhou um <b>desconto especial!</b></p>
+                </div>
                 <div id="resultMessage" class="result-message" style="display: none;"></div>
             </div>
         </div>
 
         <div class="scratch-card" id="scratchCard">
-            <div class="prize-layer" id="prizeLayer">
-                <div class="prize-text">
-                    <div id="prizeText1"></div>
-                    <div id="prizeText2"></div>
-                </div>
-                <div class="prize-code" id="prizeCode"></div>
+            <div class="scratch-coupon-bg" id="scratchCouponBg">
+                <img src="" alt="Cupom" class="coupon-image" id="couponImage">
             </div>
-
-            <div class="scratch-layer" id="scratchLayer">
-                <div class="scratch-instruction">Raspe aqui!</div>
-                <div class="scratch-icon">👆</div>
-            </div>
-
+            <div class="scratch-layer" id="scratchLayer"></div>
             <canvas class="canvas-overlay" id="scratchCanvas"></canvas>
         </div>
 
-        <div class="coupon-image-container" id="couponImageContainer">
-            <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_11_17_23_57_Subtract.png" alt="Cupón de Descuento"
-                class="coupon-image">
-            <div class="coupon-code" id="couponCodeText"></div>
+        <div class="coupon-image-container hide" id="couponImageContainer">
+            <div class="boxCupom" id="boxCupom">
+                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_11_17_23_57_Subtract.png" alt="">
+                <div class="text">
+                    <p class="copy" id="copyCupom"><span id="couponCodeText"></span></p>
+                </div>
+            </div>
+            <p class="subtext">*Válido por 48 horas</p>
         </div>
 
         <p id="couponHintText" class="hint-text" style="display: none;">*Válido por 48 horas!</p>
@@ -54,17 +52,10 @@
             <div class="progress-fill" id="progressFill"></div>
         </div>
 
-        <div id="hintText" class="hint-text">💡 Dica: Raspe pelo menos 60% para revelar o prêmio!</div>
-
-        <div class="fashion-icons">
-            <span>✨</span>
-            <span>🌟</span>
-            <span>💫</span>
-            <span>⭐</span>
-        </div>
+        <div id="hintText" class="hint-text">Dica: Raspe pelo menos 70% para revelar o prêmio!</div>
 
         <button class="play-again-btn" id="playAgainBtn">
-            Jogar Novamente
+            Nova raspadinha!
         </button>
     </div>
 
