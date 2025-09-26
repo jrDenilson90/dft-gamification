@@ -49,16 +49,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const headerEmoji = document.getElementById('headerEmoji');
 
     const positiveFeedback = [
-        "Arrasou! 🎉",
-        "Perfeito! ⭐",
-        "Você é expert! 💫",
-        "Incrível! 🌟"
+        "Arrasou!",
+        "Perfeito!",
+        "Você é expert!",
+        "Incrível!"
     ];
 
     const encouragement = [
-        "Quase lá! 💪",
-        "Não desista! 🌈",
-        "Próxima você acerta! ✨"
+        "Quase lá!",
+        "Não desista!",
+        "Próxima você acerta!"
     ];
 
     // ========== Helpers: Tracking, Badge e Fallback Copy ==========
@@ -303,8 +303,12 @@ document.addEventListener('DOMContentLoaded', function () {
         progressBar.style.width = '100%';
 
         // Esconde contadores se existirem
+        // Esconde contadores se existirem
         document.querySelectorAll('.question-counter').forEach(el => {
-            el.style.opacity = '0';
+            el.style.display = 'none';
+        });
+        document.querySelectorAll('.progress-container').forEach(el => {
+            el.style.display = 'none';
         });
 
         // Garante CSS do badge "Copiado!"

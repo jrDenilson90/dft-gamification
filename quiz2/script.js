@@ -304,7 +304,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Esconde contadores se existirem
         document.querySelectorAll('.question-counter').forEach(el => {
-            el.style.opacity = '0';
+            el.style.display = 'none';
+        });
+        document.querySelectorAll('.progress-container').forEach(el => {
+            el.style.display = 'none';
         });
 
         // Garante CSS do badge "Copiado!"

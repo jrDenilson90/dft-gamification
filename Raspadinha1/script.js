@@ -34,8 +34,22 @@ document.addEventListener('DOMContentLoaded', function () {
         canvas.width = rect.width;
         canvas.height = rect.height;
         ctx.globalCompositeOperation = 'source-over';
-        ctx.fillStyle = 'rgba(192, 192, 192, 1)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+        // Cria uma imagem em branco
+        const imageData = ctx.createImageData(canvas.width, canvas.height);
+        const data = imageData.data;
+    
+        // Preenche cada pixel com um tom de cinza aleatório
+        for (let i = 0; i < data.length; i += 4) {
+            const gray = 200 + Math.floor(Math.random() * 60); // Cinza claro, ajuste se quiser mais escuro/claro
+            data[i] = gray;     // R
+            data[i + 1] = gray; // G
+            data[i + 2] = gray; // B
+            data[i + 3] = 255;  // Alpha (opaco)
+        }
+    
+        ctx.putImageData(imageData, 0, 0);
+    
         totalPixels = canvas.width * canvas.height;
         scratchedPixels = 0;
     }
