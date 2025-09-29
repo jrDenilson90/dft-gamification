@@ -49,16 +49,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const headerEmoji = document.getElementById('headerEmoji');
 
     const positiveFeedback = [
-        "Arrasou! 🎉",
-        "Perfeito! ⭐",
-        "Você é expert! 💫",
-        "Incrível! 🌟"
+        "Arrasou!",
+        "Perfeito!",
+        "Você é expert!",
+        "Incrível!"
     ];
 
     const encouragement = [
-        "Quase lá! 💪",
-        "Não desista! 🌈",
-        "Próxima você acerta! ✨"
+        "Quase lá!",
+        "Não desista!",
+        "Próxima você acerta!"
     ];
 
     // ========== Helpers: Tracking, Badge e Fallback Copy ==========
