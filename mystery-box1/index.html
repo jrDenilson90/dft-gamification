@@ -9,69 +9,48 @@
 </head>
 
 <body>
-    <div class="mystery-container">
-        <div class="header">
-            <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_06_57_Mystery_Box.png" alt="Mystery Box">
-            <p>Escolha sua caixa e descubra o prêmio!</p>
-        </div>
+    <div class="mistery-container">
+        <button class="close-button" aria-label="Fechar" title="Fechar"
+        onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}">&times;</button>
 
-        <div class="tries-counter" id="triesCounter">
-            Caixas restantes: 3
-        </div>
-
-        <!-- Seleção de Caixas -->
-        <div class="box-selection" id="boxSelection">
-            <div class="mystery-box box-bronze" data-type="bronze">
-                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_44_08_box-brisa.png" alt="Caixa Brisa Coral">
-            </div>
+        <div class="mistery-header">
+            <img class="logo" src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_11_15_33_Group_26653583.png" alt="Logotipo dafiti">
+            <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_29_12_58_13_Mystery_Box.svg" alt="">
             
-            <div class="mystery-box box-silver" data-type="silver">
-                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_44_10_box-ceu.png" alt="Caixa Céu Radiante">
+            <div class="textInit textA">
+                <p class="text">Escolha dua caixa e descubra o premio!</p>
             </div>
-            
-            <div class="mystery-box box-gold" data-type="gold">
-                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_44_13_box-sol.png" alt="Caixa Sol Laranja">
+            <div class="textInit textB hide">
+                <p class="text">Caixa selecionada</p>
             </div>
-
-            <div class="mystery-box box-diamond" data-type="diamond">
-                <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_23_10_44_12_box-esmeralda.png" alt="Caixa Oásis Esmeralda">
+            <div class="textInit textC hide">
+                <p class="text">Parabéns</p>
+                <p class="text">você ganhou um <b>desconto especial!</b></p>
             </div>
         </div>
-
-        <div class="instruction-text">💡 Caixas melhores têm prêmios mais raros!</div>
-
-        <!-- Animação de Abertura -->
-        <div class="opening-animation" id="openingAnimation" style="display: none;">
-            <div class="box-3d" id="box3d">
-                <div class="box-front" id="boxFront">📦</div>
-                <div class="box-lid" id="boxLid">📦</div>
-                <div class="prize-reveal" id="prizeReveal">
-                    <div class="prize-emoji" id="prizeEmoji">🎁</div>
-                </div>
-            </div>
-
-            <button class="open-button" id="openButton">
-                🔓 Abrir Caixa!
+        
+        <div class="boxCards">
+            <button class="card">
+                <img src="" alt="">
+                <p class="text"></p>
             </button>
         </div>
 
-        <!-- Resultado -->
-        <div class="result-message" id="resultMessage"></div>
-
-        <button class="new-box-btn" id="newBoxBtn" style="display: none;">
-            📦 Nova Caixa
-        </button>
-
-        <div class="fashion-icons">
-            <span>✨</span>
-            <span>🌟</span>
-            <span>💫</span>
-            <span>⭐</span>
+        <div class="mistery-footer">
+            <div class="feedback hide">
+                <p class="text">XXX</p>
+                <div class="boxCupom" id="boxCupom">
+                    <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_11_17_23_57_Subtract.png" alt="">
+                    <div class="text">
+                        <p class="copy" id="copyCupom"><span id="couponCodeText"></span></p>
+                    </div>
+                </div>
+                <p class="smallText">*Valido por 48 horas!</p>
+            </div>
         </div>
 
-        <button class="play-again-btn" id="playAgainBtn" style="display: none;">
-            🔄 Jogar Novamente
-        </button>
+        <button class="openBox hide">Abrir Caixa!</button>
+
     </div>
 
     <script src="script.js"></script>

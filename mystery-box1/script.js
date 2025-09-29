@@ -1,278 +1,133 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const cupons = [
+        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_36_57_mask1.png', description: 'Brisa Coral', cupom: 'CAIXA1' },
+        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_36_59_mask2.png', description: 'Céu Radiante', cupom: 'CAIXA2' },
+        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_37_01_mask3.png', description: 'Sol Laranja', cupom: 'CAIXA3' },
+        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_37_03_mask4.png', description: 'Oásis Esmeralda', cupom: 'CAIXA4' }
+    ];
 
-    const prizes = {
-        bronze: [
-            { emoji: '👗', text: '10% OFF\nVestidos', code: 'BRONZE10', rarity: 'common' },
-            { emoji: '👠', text: '15% OFF\nCalçados', code: 'SHOES15', rarity: 'common' },
-            { emoji: '💄', text: '5% OFF\nBeleza', code: 'BEAUTY5', rarity: 'common' },
-            { emoji: '😔', text: 'Tente\nNovamente', code: null, rarity: 'common' }
-        ],
-        silver: [
-            { emoji: '👜', text: '20% OFF\nBolsas', code: 'BAGS20', rarity: 'rare' },
-            { emoji: '🕶️', text: 'Frete\nGrátis', code: 'FRETEGRATIS', rarity: 'rare' },
-            { emoji: '💍', text: '25% OFF\nJoias', code: 'JOIAS25', rarity: 'rare' },
-            { emoji: '👗', text: '15% OFF\nVestidos', code: 'VESTIDOS15', rarity: 'common' }
-        ],
-        gold: [
-            { emoji: '💎', text: '30% OFF\nPremium', code: 'PREMIUM30', rarity: 'epic' },
-            { emoji: '👑', text: '35% OFF\nJoias', code: 'JOIAS35', rarity: 'epic' },
-            { emoji: '🎁', text: '25% OFF\nTudo', code: 'TUDO25', rarity: 'rare' },
-            { emoji: '👜', text: '20% OFF\nBolsas', code: 'BAGS20', rarity: 'rare' }
-        ],
-        diamond: [
-            { emoji: '🏆', text: '50% OFF\nTudo', code: 'MEGA50', rarity: 'legendary' },
-            { emoji: '💎', text: '40% OFF\nPremium', code: 'PREMIUM40', rarity: 'epic' },
-            { emoji: '👑', text: '35% OFF\nJoias', code: 'JOIAS35', rarity: 'epic' },
-            { emoji: '🎁', text: '30% OFF\nTudo', code: 'TUDO30', rarity: 'epic' }
-        ]
-    };
+    const ButtonOpenBox = document.querySelectorAll('.openBox');
 
-    let boxesLeft = 3;
-    let selectedBoxType = null;
-    let currentPrize = null;
-    let isOpening = false;
+    // Seletores dos textos
+    const textA = document.querySelector('.textInit.textA');
+    const textB = document.querySelector('.textInit.textB');
+    const textC = document.querySelector('.textInit.textC');
+    const feedback = document.querySelector('.feedback');
 
-    const boxSelection = document.getElementById('boxSelection');
-    const openingAnimation = document.getElementById('openingAnimation');
-    const box3d = document.getElementById('box3d');
-    const boxFront = document.getElementById('boxFront');
-    const boxLid = document.getElementById('boxLid');
-    const prizeReveal = document.getElementById('prizeReveal');
-    const prizeEmoji = document.getElementById('prizeEmoji');
-    const openButton = document.getElementById('openButton');
-    const resultMessage = document.getElementById('resultMessage');
-    const triesCounter = document.getElementById('triesCounter');
-    const newBoxBtn = document.getElementById('newBoxBtn');
-    const playAgainBtn = document.getElementById('playAgainBtn');
+    // Alvos para exibir o cupom
+    const copyCupomEl = document.getElementById('couponCodeText');           // <p id="copyCupom">
+    const couponCodeTextEl = document.getElementById('couponCodeText'); // <span id="couponCodeText">
 
-    function updateTriesCounter() {
-        triesCounter.textContent = `Caixas restantes: ${boxesLeft}`;
-        if (boxesLeft === 0) {
-            triesCounter.style.color = '#dc3545';
-            triesCounter.style.fontWeight = '700';
-        }
-    }
+    // Renderiza os cards a partir do array (caso ainda não tenha 4 cards no HTML)
+    const boxCards = document.querySelector('.boxCards');
+    function renderCards(list) {
+        if (!boxCards) return;
+        boxCards.innerHTML = '';
 
-    function createConfetti() {
-        const colors = ['#667eea', '#764ba2', '#ffd700', '#ff6b9d', '#4ecdc4'];
+        list.forEach((item, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'card';
+            btn.dataset.index = idx;
+            btn.dataset.cupom = item.cupom;
 
-        for (let i = 0; i < 30; i++) {
-            setTimeout(() => {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                confetti.style.animationDelay = Math.random() * 2 + 's';
-                document.body.appendChild(confetti);
+            const img = document.createElement('img');
+            const p = document.createElement('p');
+            p.className = 'text';
 
-                setTimeout(() => {
-                    if (confetti.parentNode) {
-                        confetti.parentNode.removeChild(confetti);
-                    }
-                }, 3000);
-            }, i * 50);
-        }
-    }
-
-    function getRandomPrize(boxType) {
-        const boxPrizes = prizes[boxType];
-
-        // Probabilidades baseadas no tipo de caixa
-        let probabilities;
-        switch (boxType) {
-            case 'bronze':
-                probabilities = [0.3, 0.3, 0.2, 0.2]; // 40% chance de desconto, 20% retry
-                break;
-            case 'silver':
-                probabilities = [0.4, 0.3, 0.2, 0.1]; // Melhores chances
-                break;
-            case 'gold':
-                probabilities = [0.3, 0.3, 0.3, 0.1]; // Chances equilibradas
-                break;
-            case 'diamond':
-                probabilities = [0.1, 0.3, 0.3, 0.3]; // Maior chance de legendary
-                break;
-        }
-
-        const random = Math.random();
-        let cumulative = 0;
-
-        for (let i = 0; i < probabilities.length; i++) {
-            cumulative += probabilities[i];
-            if (random < cumulative) {
-                return boxPrizes[i];
-            }
-        }
-
-        return boxPrizes[boxPrizes.length - 1];
-    }
-
-    function selectBox(boxType) {
-        if (isOpening) return;
-
-        selectedBoxType = boxType;
-        currentPrize = getRandomPrize(boxType);
-
-        // Esconder seleção e mostrar animação
-        boxSelection.style.display = 'none';
-        openingAnimation.style.display = 'flex';
-
-        // Configurar visual da caixa 3D
-        const boxColors = {
-            bronze: 'linear-gradient(135deg, #cd7f32 0%, #8b4513 100%)',
-            silver: 'linear-gradient(135deg, #c0c0c0 0%, #808080 100%)',
-            gold: 'linear-gradient(135deg, #ffd700 0%, #ff8c00 100%)',
-            diamond: 'linear-gradient(135deg, #e6e6fa 0%, #9370db 100%)'
-        };
-
-        boxFront.style.background = boxColors[boxType];
-        boxLid.style.background = boxColors[boxType];
-
-        // Configurar prêmio
-        prizeEmoji.textContent = currentPrize.emoji;
-    }
-
-    function openBox() {
-        if (isOpening) return;
-
-        isOpening = true;
-        boxesLeft--;
-
-        openButton.disabled = true;
-        openButton.classList.add('opening');
-        openButton.textContent = '🔓 Abrindo...';
-
-        // Animação de abertura
-        box3d.classList.add('opening');
-
-        setTimeout(() => {
-            box3d.classList.remove('opening');
-            box3d.classList.add('opened');
-            boxLid.classList.add('open');
-
-            setTimeout(() => {
-                prizeReveal.classList.add('show');
-
-                setTimeout(() => {
-                    showResult(currentPrize);
-                    updateTriesCounter();
-
-                    if (boxesLeft > 0) {
-                        newBoxBtn.style.display = 'inline-block';
-                    } else {
-                        playAgainBtn.style.display = 'inline-block';
-                    }
-
-                    isOpening = false;
-                }, 1000);
-            }, 500);
-        }, 1000);
-    }
-
-    function showResult(prize) {
-        if (prize.code === null) {
-            resultMessage.innerHTML = `
-    <h3>🎯 Tente Novamente!</h3>
-    <p style="font-size: 14px; color: #666; margin-top: 8px;">
-      Não foi desta vez! Tente outra caixa! 🍀
-    </p>
-  `;
-            boxesLeft++; // Adiciona uma caixa extra
-
-        } else {
-            const rarityColors = {
-                common: '#28a745',
-                rare: '#007bff',
-                epic: '#6f42c1',
-                legendary: '#fd7e14'
-            };
-
-            const rarityNames = {
-                common: 'Comum',
-                rare: 'Raro',
-                epic: 'Épico',
-                legendary: 'Lendário'
-            };
-
-            if (prize.rarity === 'legendary') {
-                createConfetti();
+            const looksLikeUrl = /^https?:\/\//.test(item.img) || /\.(png|jpe?g|webp|svg|gif)$/i.test(item.img);
+            if (looksLikeUrl) {
+                img.src = item.img;
+                img.alt = item.cupom;
+            } else {
+                img.alt = item.img;
+                img.style.display = 'none';
+                const label = document.createElement('span');
+                label.className = 'img-label';
+                label.textContent = item.img;
+                btn.appendChild(label);
             }
 
-            resultMessage.innerHTML = `
-    <h3>${prize.rarity === 'legendary' ? '🏆 LENDÁRIO!' : '🎉 Parabéns!'} ${prize.emoji}</h3>
-    <div class="prize-info">
-      🎁 ${prize.code} 🎁<br>
-      <span style="font-size: 14px;">${prize.text.replace('\n', ' ')}</span>
-      <div class="rarity-badge" style="background: ${rarityColors[prize.rarity]}; color: #fff;">
-        ${rarityNames[prize.rarity]}
-      </div>
-    </div>
-    <p style="font-size: 12px; color: #666; margin-top: 8px;">
-      ${prize.rarity === 'legendary' ? 'Prêmio ultra raro!' : 'Válido por 48 horas!'}
-    </p>
-  `;
-        }
-    }
+            p.textContent = item.description;
 
-    function newBox() {
-        // Reset da interface
-        boxSelection.style.display = 'flex';
-        openingAnimation.style.display = 'none';
-        resultMessage.innerHTML = '';
-        newBoxBtn.style.display = 'none';
-
-        // Reset da caixa 3D
-        box3d.classList.remove('opened');
-        boxLid.classList.remove('open');
-        prizeReveal.classList.remove('show');
-
-        // Reset do botão
-        openButton.disabled = false;
-        openButton.classList.remove('opening');
-        openButton.textContent = '🔓 Abrir Caixa!';
-
-        // Reset das seleções
-        document.querySelectorAll('.mystery-box').forEach(box => {
-            box.classList.remove('selected');
+            btn.appendChild(img);
+            btn.appendChild(p);
+            boxCards.appendChild(btn);
         });
-
-        selectedBoxType = null;
-        currentPrize = null;
     }
 
-    function resetGame() {
-        boxesLeft = 3;
-        isOpening = false;
+    // Mantém referência ao cupom selecionado
+    let selectedCoupon = null;
 
-        resultMessage.innerHTML = '';
+    // Animação zoomCard + seleção do cupom
+    function animacard() {
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', function () {
+                // Guarda o cupom do card clicado
+                selectedCoupon = this.dataset.cupom || null;
 
-        newBoxBtn.style.display = 'none';
-        playAgainBtn.style.display = 'none';
+                document.querySelectorAll('.card').forEach(otherCard => {
+                    otherCard.classList.remove('zoomIn');
+                    if (otherCard !== this) {
+                        otherCard.classList.add('hide');
+                        otherCard.classList.add('zoomOut');
+                    } else {
+                        otherCard.classList.add('zoomIn');
+                    }
+                });
 
-        triesCounter.style.color = '#6c757d';
-        triesCounter.style.fontWeight = '600';
-        updateTriesCounter();
+                // Mostrar botões (NodeList -> iterar)
+                ButtonOpenBox.forEach(btn => btn.classList.remove('hide'));
 
-        newBox();
+                // Esconder textA e mostrar textB
+                if (textA) textA.classList.add('hide');
+                if (textB) textB.classList.remove('hide');
+                if (textC) textC.classList.add('hide');
+            });
+        });
     }
 
-    // Event listeners
-    document.querySelectorAll('.mystery-box').forEach(box => {
-        box.addEventListener('click', () => {
-            if (isOpening) return;
+    // Clique em "Abrir Caixa!" -> mostra textC e coloca o cupom no #copyCupom (e no #couponCodeText se existir)
+    ButtonOpenBox.forEach(buttonOpen => {
+        buttonOpen.addEventListener('click', () => {
+            // Atualiza o texto do cupom
+            if (selectedCoupon) {
+                if (couponCodeTextEl) {
+                    couponCodeTextEl.textContent = selectedCoupon; // mantém a estrutura com o span
+                } else if (copyCupomEl) {
+                    copyCupomEl.textContent = selectedCoupon; // fallback direto no <p id="copyCupom">
+                }
+            }
 
-            document.querySelectorAll('.mystery-box').forEach(b => b.classList.remove('selected'));
-            box.classList.add('selected');
+            // Troca de estados de texto
+            if (textA) textA.classList.add('hide');
+            if (textB) textB.classList.add('hide');
+            if (textC) textC.classList.remove('hide');
+            if (feedback) feedback.classList.remove('hide');
 
-            const boxType = box.getAttribute('data-type');
-            selectBox(boxType);
+            createConfetti();
         });
     });
 
-    openButton.addEventListener('click', openBox);
-    newBoxBtn.addEventListener('click', newBox);
-    playAgainBtn.addEventListener('click', resetGame);
-
-    // Inicializar
-    updateTriesCounter();
+    // Renderiza e conecta eventos
+    renderCards(cupons);
+    animacard();
 });
+
+// ========== Confete ==========
+function createConfetti() {
+    for (let i = 0; i < 50; i++) {
+        setTimeout(function () {
+            const confetti = document.createElement("div");
+            confetti.className = "confetti";
+            confetti.style.left = Math.random() * 100 + "%";
+            const colors = ["#FFE85E", "#ffffff", "#FFE85E", "#ffffff"];
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            document.body.appendChild(confetti);
+            setTimeout(function () {
+                if (confetti.parentNode) {
+                    confetti.parentNode.removeChild(confetti);
+                }
+            }, 3000);
+        }, i * 50);
+    }
+}
