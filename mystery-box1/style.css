@@ -71,7 +71,7 @@ b {
     text-align: center;
     position: relative;
     animation: slideIn 0.5s ease-out;
-    height: 620px;
+    height: 640px !important;
     max-height: 85vh;
     overflow-y: auto;
     border-radius: 20px;
@@ -136,6 +136,11 @@ button {
     aspect-ratio: 1/1;
 }
 
+.mistery-container .boxCards.scale {
+    width: 80%;
+    margin: 0 auto;
+}
+
 .mistery-container .boxCards .card {
     background-size: 105%;
     background-position: center;
@@ -196,6 +201,7 @@ button {
 
 .mistery-container .boxCards .card.zoomIn p {
     font-size: 16px;
+    margin-top: 15px;
 }
 
 .mistery-container .boxCards .card.zoomOut {
@@ -232,6 +238,131 @@ button {
 .mistery-container .boxButton .openBox:hover {
     transform: translateY(-3px);
     box-shadow: 0 5px 10px rgba(00, 00, 00, 0.3);
+}
+
+.mistery-container .mistery-footer {
+    margin-top: 10px;
+}
+
+.mistery-container .mistery-footer .feedback {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px auto 10px;
+    cursor: pointer;
+    background: none;
+    position: relative;
+}
+
+.mistery-container .mistery-footer .feedback .textPremium {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.mistery-container .mistery-footer .feedback .boxCupom {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 85px;
+    cursor: pointer;
+}
+
+.mistery-container .mistery-footer .feedback .boxCupom img {
+    position: absolute;
+    width: 100%;
+    max-width: 85%;
+    animation: none;
+    margin: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.mistery-container .mistery-footer .feedback .smallText {
+    font-size: 10px;
+    margin: 10px 0;
+    font-weight: 100;
+}
+
+.mistery-container .mistery-footer .feedback .boxCupom .text .copy {
+    z-index: 1;
+    position: relative;
+    margin: 0;
+    color: #000000;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.copy.copied::after {
+    content: "Copiado!";
+    text-transform: capitalize;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    background-color: rgb(89 89 89);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    animation: copiedFade 2400ms ease forwards;
+    text-align: center;
+}
+
+.copy.copied::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    top: -25px;
+    background-color: rgb(89 89 89);
+    animation: copiedFadeBefore 2400ms ease forwards;
+    opacity: 0;
+}
+
+@keyframes copiedFade {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-6px);
+    }
+    15% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    85% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-6px);
+    }
+}
+
+@keyframes copiedFadeBefore {
+    0% { opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.coupon-image-container .subtext {
+    font-size: 12px;
+    font-weight: 300;
+    color: #fff;
+    margin-top: 8px;
 }
 
 .confetti {
