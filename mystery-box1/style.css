@@ -95,7 +95,7 @@ b {
     object-position: center;
 }
 
-.mistery-container .mistery-header  .text {
+.mistery-container .mistery-header .text {
     font-size: 16px;
     font-weight: 600;
     margin: 20px auto;
@@ -121,9 +121,9 @@ button {
 }
 
 .mistery-container {
-    width: 350px;
+    width: 100%;
     height: auto;
-    padding: 10px;
+    padding: 15px;
 }
 
 .mistery-container .boxCards {
@@ -181,6 +181,7 @@ button {
 .mistery-container .boxCards .card p {
     margin-top: 4px;
     color: #ffffff;
+    font-size: 12px;
 }
 
 .mistery-container .boxCards .card.zoomIn {
@@ -189,7 +190,12 @@ button {
 }
 
 .mistery-container .boxCards .card.zoomIn img {
+    width: 85%;
     filter: blur(0);
+}
+
+.mistery-container .boxCards .card.zoomIn p {
+    font-size: 16px;
 }
 
 .mistery-container .boxCards .card.zoomOut {
@@ -197,8 +203,35 @@ button {
     opacity: 0;
 }
 
-.mistery-container .openBox {
-    margin: 15px 0 0;
+.mistery-container .boxButton {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.mistery-container .boxButton .openBox {
+    align-items: center;
+    border-radius: 50px;
+    background-color: #ffffff;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    height: 35px;
+    justify-content: center;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    transition: opacity 0.3s ease-out, transform 0.2s, box-shadow 0.2s;
+    min-width: 148px;
+    padding: 5px 20px;
+    margin: 15px auto 0;
+}
+
+.mistery-container .boxButton .openBox:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(00, 00, 00, 0.3);
 }
 
 .confetti {

@@ -1,9 +1,29 @@
 document.addEventListener('DOMContentLoaded', function () {
     const cupons = [
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_36_57_mask1.png', description: 'Brisa Coral', cupom: 'CAIXA1' },
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_36_59_mask2.png', description: 'Céu Radiante', cupom: 'CAIXA2' },
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_37_01_mask3.png', description: 'Sol Laranja', cupom: 'CAIXA3' },
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_37_03_mask4.png', description: 'Oásis Esmeralda', cupom: 'CAIXA4' }
+        { 
+            img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_36_57_mask1.png', 
+            descriptionImg: 'Brisa Coral',
+            descriptionPremium: '',
+            cupom: 'CAIXA1' 
+        },
+        { 
+            img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_36_59_mask2.png', 
+            descriptionImg: 'Céu Radiante',
+            descriptionPremium: '',
+            cupom: 'CAIXA2' 
+        },
+        { 
+            img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_37_01_mask3.png', 
+            descriptionImg: 'Sol Laranja',
+            descriptionPremium: '',
+            cupom: 'CAIXA3' 
+        },
+        { 
+            img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_37_03_mask4.png', 
+            descriptionImg: 'Oásis Esmeralda',
+            descriptionPremium: '',
+            cupom: 'CAIXA4' 
+        }
     ];
 
     const ButtonOpenBox = document.querySelectorAll('.openBox');
@@ -47,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 btn.appendChild(label);
             }
 
-            p.textContent = item.description;
+            p.textContent = item.descriptionImg;
 
             btn.appendChild(img);
             btn.appendChild(p);
