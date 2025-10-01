@@ -1,4 +1,3 @@
-// quiz.js
 document.addEventListener('DOMContentLoaded', function () {
 
     const questions = [
@@ -10,7 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 "C. Lança Perfume",
                 "D. Mango"
             ],
-            answer: 1,
+            // Agora tratamos como 1-based (1..4)
+            answer: 2,
             emoji: ""
         },
         {
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 "C. Peça de roupa social",
                 "D. Bolsa de mão"
             ],
-            answer: 2,
+            answer: 3,
             emoji: ""
         },
         {
@@ -30,8 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 "A. Poá",
                 "B. Xadrez",
                 "C. Listras",
-                "D. Floral"],
-            answer: 3,
+                "D. Floral"
+            ],
+            answer: 4,
             emoji: ""
         }
     ];
@@ -63,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ========== Helpers: Tracking, Badge e Fallback Copy ==========
 
-    // Função para fazer tracking de eventos
     function trackEvent(eventName, properties = {}) {
         try {
             const eventProperties = {
@@ -81,27 +81,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.appboy.logCustomEvent(eventName, eventProperties);
                 window.appboy.requestImmediateDataFlush();
             }
-            // console.log(`✅ Tracked: ${eventName}`, eventProperties);
         } catch (error) {
             console.error('Tracking error:', error);
         }
     }
 
-    // Injeta CSS do badge "Copiado!" (pseudo-elemento ::after)
     function ensureCopiedBadgeStyles() {
         if (document.getElementById('copied-badge-styles')) return;
-
         const style = document.createElement('style');
         style.id = 'copied-badge-styles';
-
         document.head.appendChild(style);
     }
 
-    // Mostra o badge "Copiado!" temporariamente
     function showCopiedBadge(el) {
         if (!el) return;
         clearTimeout(el._copiedTimer);
-        // Garante um texto default, mas permite customizar via data-after no HTML
         if (!el.hasAttribute('data-after')) {
             el.setAttribute('data-after', 'Copiado!');
         }
@@ -109,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function () {
         el._copiedTimer = setTimeout(() => el.classList.remove('copied'), 1500);
     }
 
-    // Fallback com textarea temporário
     function copiaFallback(txt) {
         const ta = document.createElement('textarea');
         ta.value = txt;
@@ -153,9 +146,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ========== Progresso ==========
     function updateProgress() {
-        // Progresso baseado no número de perguntas JÁ RESPONDIDAS
         const progress = (currentQuestion / questions.length) * 100;
         progressBar.style.width = progress + '%';
+    }
+
+    // Remove prefixos tipo "A. ", "B. " apenas na exibição
+    function stripLetterPrefix(text) {
+        return text.replace(/^[A-D]\.\s*/i, '');
     }
 
     // ========== Render Pergunta ==========
@@ -165,12 +162,15 @@ document.addEventListener('DOMContentLoaded', function () {
         nextBtn.style.display = 'none';
 
         const q = questions[currentQuestion];
-        headerEmoji.textContent = q.emoji;
+        headerEmoji.textContent = q.emoji || '';
         questionCounter.textContent = 'Pergunta ' + (currentQuestion + 1) + ' de ' + questions.length;
 
         let html = '<div class="question">' + q.question + '</div><div class="options">';
         for (let i = 0; i < q.options.length; i++) {
-            html += '<button onclick="selectOption(' + i + ')" id="opt' + i + '">' + q.options[i] + '</button>';
+            // Mostra 1,2,3,4 e remove "A. ", "B. " do texto
+            const labelNumber = i + 1;
+            const displayText = stripLetterPrefix(q.options[i]);
+            html += '<button onclick="selectOption(' + i + ')" id="opt' + i + '">' + labelNumber + '. ' + displayText + '</button>';
         }
         html += '</div>';
         quizDiv.innerHTML = html;
@@ -206,7 +206,8 @@ document.addEventListener('DOMContentLoaded', function () {
             buttons[i].disabled = true;
         }
 
-        const isCorrect = idx === q.answer;
+        // Agora a verificação é 1-based: (idx + 1)
+        const isCorrect = (idx + 1) === q.answer;
 
         if (isCorrect) {
             buttons[idx].classList.add('correct');
@@ -222,7 +223,9 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 10);
         } else {
             buttons[idx].classList.add('incorrect');
-            buttons[q.answer].classList.add('correct');
+            // Destaca a correta com base em 1-based
+            const correctIdx = q.answer - 1;
+            if (buttons[correctIdx]) buttons[correctIdx].classList.add('correct');
 
             const randomEncouragement = encouragement[Math.floor(Math.random() * encouragement.length)];
             feedbackDiv.textContent = randomEncouragement;
@@ -232,8 +235,11 @@ document.addEventListener('DOMContentLoaded', function () {
         trackEvent('quiz_question_answered', {
             action: 'question_answered',
             question_text: q.question,
-            selected_answer: q.options[idx],
-            correct_answer: q.options[q.answer],
+            // Guarda texto sem prefixo e também o número 1..4
+            selected_answer_number: idx + 1,
+            selected_answer_text: stripLetterPrefix(q.options[idx]),
+            correct_answer_number: q.answer,
+            correct_answer_text: stripLetterPrefix(q.options[q.answer - 1]),
             is_correct: isCorrect
         });
 
@@ -276,7 +282,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<img class="trophy-emoji" src="https://dafitistatic.dafiti.com.br/cms/2025_09_11_17_23_57_Subtract.png" alt="">' +
                 '<p class="copy" id="meuCopy">FASHION15OFF</p>' +
                 '</div>' +
-                '<p style="font-size: 12px; margin-top: 12px;">Válido por 7 dias suas marcas favoritas!</p>' +
+                '<p style="font-size: 10px; margin-top: 12px;">Válido por 7 dias suas marcas favoritas!</p>' +
                 '</div>';
         } else {
             const percentage = Math.round((correctAnswers / questions.length) * 100);
@@ -302,7 +308,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // Ao terminar, garante 100%
         progressBar.style.width = '100%';
 
-        // Esconde contadores se existirem
         // Esconde contadores se existirem
         document.querySelectorAll('.question-counter').forEach(el => {
             el.style.display = 'none';
