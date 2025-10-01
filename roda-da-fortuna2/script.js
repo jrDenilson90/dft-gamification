@@ -1,47 +1,47 @@
-// Roda da Fortuna – JS (ajuste)
-// Requisito: manter .text-orint e .infoChanges visíveis se cair em "TenteNovamente".
+// ==================== DADOS (sentido HORÁRIO) ====================
+const DADOS_GAMES = {
+    roleta: "https://dafitistatic.dafiti.com.br/cms/2025_09_24_16_09_26_Group_26653585.svg",
+    setores: [
+        "20OFFCalçados",   // index 0
+        "FreteGrátis",     // index 1
+        "35OFFJoias",      // index 2
+        "TenteNovamente",  // index 3 (não consome chance e NÃO dispara confete)
+        "25OFFVestuário",  // index 4
+        "25OFFPremium",    // index 5
+    ],
+};
 
-// ====== CONFIGURAÇÃO ======
+// ==================== CONFIGURAÇÃO ====================
 const MIN_TURNS = 5;
 const EXTRA_TURNS_MAX = 2;
 const DURATION_MS = 4500;
 const EASING = "cubic-bezier(0.15, 0.85, 0.15, 1)";
-const SECTORS = 6;
-const SECTOR_SIZE = 360 / SECTORS;
-const OFFSET_DEG = 0;
 
-const FEEDBACKS = [
-    "25OFFPremium",
-    "25OFFVestuário",
-    "TenteNovamente", // <- Setor 3 (1-based) — não consome chance
-    "35OFFJoias",
-    "FreteGrátis",
-    "20OFFCalçados",
-];
+const SECTORS = DADOS_GAMES.setores.length; // 6
+const SECTOR_SIZE = 360 / SECTORS;          // 60
 
-// ====== ELEMENTOS ======
-const wheelImg = document.querySelector(".roleta img");
+// Ajuste fino do zero da arte vs. ponteiro (em graus, sentido horário).
+// Se a arte ficar deslocada, ajuste em passos de ±5~10 (ex.: 10, -10).
+let OFFSET_DEG = 0;
+
+// ==================== ELEMENTOS ====================
+const wheelImg = document.querySelector(".wheel img.roleta");
 const spinBtn = document.getElementById("spin-button");
 const chancesEl = document.querySelector(".chances");
 
-// UI de feedback
+// UI
 const feedbackWrap = document.querySelector(".feedback");
 const boxCupom = document.querySelector(".boxCupom");
 const boxCupomSpan = document.querySelector(".boxCupom p span");
 const textOrint = document.querySelector(".text-orint");
-const infoChanges = document.querySelector(".infoChanges"); // <- novo (pode ser null se não existir)
+const infoChanges = document.querySelector(".infoChanges");
 
-// alvo preferencial do badge "copied" (se existir no seu HTML/CSS)
-function getCopyTarget() {
-    return document.querySelector(".copy") || boxCupom;
-}
-
-// ====== ESTADO ======
+// ==================== ESTADO ====================
 let isSpinning = false;
 let currentRotation = 0;
 let lastFeedbackText = "";
 
-// ====== ESTADO DA ANIMAÇÃO DO BOTÃO ======
+// ==================== BOTÃO (animação de texto) ====================
 let spinDotsTimer = null;
 let spinDotsStep = 0;
 const BTN_TEXT_IDLE = "Girar Roda!";
@@ -49,18 +49,29 @@ const BTN_TEXT_SPIN_BASE = "Girando";
 const BTN_TEXT_AGAIN = "Girar novamente!";
 const BTN_TEXT_NO_CHANCES = "Sem giros";
 
-// ====== HELPERS ======
+// ==================== HELPERS ====================
 function normalizeDeg(deg) {
     let d = deg % 360;
     if (d < 0) d += 360;
     return d;
 }
-function getSectorIndex(finalDeg) {
+
+// Mapeamento explícito de SLOT (0..5) → índice no array DADOS_GAMES.setores
+// Slots por ângulo (após aplicar OFFSET_DEG):
+//   0: [  0°,  60°) → setores[[5]]() = "25OFFPremium"
+//   1: [ 60°, 120°) → setores[[4]]() = "25OFFVestuário"
+//   2: [120°, 180°) → setores[[3]]() = "TenteNovamente"
+//   3: [180°, 240°) → setores[[2]]() = "35OFFJoias"
+//   4: [240°, 300°) → setores[[1]]() = "FreteGrátis"
+//   5: [300°, 360°) → setores[[0]]() = "20OFFCalçados"
+const ANGLE_SLOT_TO_INDEX = [5, 4, 3, 2, 1, 0];
+
+function getSectorIndexByAngle(finalDeg) {
     const aligned = normalizeDeg(finalDeg - OFFSET_DEG);
-    return Math.floor(aligned / SECTOR_SIZE); // 0..5
+    const slot = Math.floor(aligned / SECTOR_SIZE) % SECTORS; // 0..5
+    return ANGLE_SLOT_TO_INDEX[slot];
 }
 
-// Chances
 function getChances() {
     if (!chancesEl) return Infinity;
     const n = parseInt(chancesEl.textContent.trim(), 10);
@@ -73,7 +84,6 @@ function setChances(n) {
     enableButton(val > 0 && !isSpinning);
 }
 
-// Botão
 function enableButton(enabled) {
     if (!spinBtn) return;
     spinBtn.disabled = !enabled;
@@ -106,33 +116,25 @@ function stopButtonSpinningText(hasChancesLeft) {
     setButtonText(hasChancesLeft ? BTN_TEXT_AGAIN : BTN_TEXT_NO_CHANCES);
 }
 
-// ====== FEEDBACK (mostrar/esconder e copy) ======
+// ====== FEEDBACK/CÓPIA ======
 function showFeedback(texto) {
     if (!feedbackWrap || !boxCupomSpan) return;
-
-    // Preenche o span e guarda o valor
     boxCupomSpan.textContent = texto;
     lastFeedbackText = texto;
 
-    // Se o feedback for "TenteNovamente", NÃO exibe o bloco (mantém .feedback com "hide")
-    if (texto === "TenteNovamente") return;
-
-    // Para outros feedbacks, mostra o bloco
+    if (texto === "TenteNovamente") return; // não exibe bloco para tente novamente
     feedbackWrap.classList.remove("hide");
 }
 function hideFeedback() {
     if (feedbackWrap) feedbackWrap.classList.add("hide");
 }
 
-// Badge "copied" — seu CSS deve estilizar .copied
 function showCopiedBadge(el) {
     if (!el) return;
     clearTimeout(el._copiedTimer);
     el.classList.add("copied");
     el._copiedTimer = setTimeout(() => el.classList.remove("copied"), 1500);
 }
-
-// Fallback de cópia
 function copiaFallback(txt) {
     const ta = document.createElement("textarea");
     ta.value = txt;
@@ -145,11 +147,10 @@ function copiaFallback(txt) {
     document.body.removeChild(ta);
     if (!ok) throw new Error('execCommand("copy") retornou false');
 }
-
-// Clique no cupom: copia e adiciona classe "copied" no .copy (ou .boxCupom)
 async function onBoxCupomClick() {
-    const toCopy = (lastFeedbackText || (boxCupomSpan && boxCupomSpan.textContent) || "").trim();
-    const badgeTarget = getCopyTarget();
+    const toCopy =
+        (lastFeedbackText || (boxCupomSpan && boxCupomSpan.textContent) || "").trim();
+    const badgeTarget = document.querySelector(".copy") || boxCupom;
 
     try {
         if (!navigator.clipboard || !navigator.clipboard.writeText || !window.isSecureContext) {
@@ -166,17 +167,18 @@ async function onBoxCupomClick() {
             alert("Não foi possível copiar automaticamente. Selecione e copie manualmente.");
         }
     }
-
-    // Não alterar texto do span.
 }
 
-// ====== INICIALIZAÇÃO ======
+// ==================== INICIALIZAÇÃO ====================
 document.addEventListener("DOMContentLoaded", () => {
-    if (chancesEl) setChances(2); // 2 -> 1 -> 0
+    if (chancesEl) setChances(2); // 2 giros
+
     if (wheelImg) {
+        wheelImg.src = DADOS_GAMES.roleta; // carrega imagem da roleta do JSON
         wheelImg.style.transformOrigin = "50% 50%";
         wheelImg.style.willChange = "transform";
     }
+
     setButtonText(getChances() > 0 ? BTN_TEXT_IDLE : BTN_TEXT_NO_CHANCES);
     enableButton(getChances() > 0);
 
@@ -185,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// ====== GIRO ======
+// ==================== GIRO ====================
 function spin() {
     if (isSpinning) return;
 
@@ -195,11 +197,10 @@ function spin() {
         return;
     }
 
-    // Início de um novo giro: mostrar instruções/infos durante o giro
+    // Mostrar instruções/infos durante o giro
     if (textOrint) textOrint.classList.remove("hide");
     if (infoChanges) infoChanges.classList.remove("hide");
 
-    // Esconder feedback anterior (se houver)
     hideFeedback();
 
     isSpinning = true;
@@ -207,7 +208,7 @@ function spin() {
     startButtonSpinningText();
 
     const extraTurns = Math.floor(Math.random() * (EXTRA_TURNS_MAX + 1));
-    const randomLanding = Math.random() * 360;
+    const randomLanding = Math.random() * 360; // CW
     const totalTurns = MIN_TURNS + extraTurns;
     const deltaRotation = totalTurns * 360 + randomLanding;
     const targetRotation = currentRotation + deltaRotation;
@@ -222,40 +223,42 @@ function spin() {
         currentRotation = targetRotation;
         const finalDeg = normalizeDeg(currentRotation);
 
-        const sectorIndex = getSectorIndex(finalDeg);
-        const sectorNumber = sectorIndex + 1;
-        const feedbackMsg = FEEDBACKS[sectorIndex] || `Setor ${sectorNumber}`;
+        // Index em função do ÂNGULO (respeitando sua ordem e faixas)
+        const sectorIndex = getSectorIndexByAngle(finalDeg);
+        const prize = DADOS_GAMES.setores[sectorIndex];
+        const isTryAgain = prize === "TenteNovamente";
 
-        // Preenche/mostra feedback conforme regra "TenteNovamente"
-        showFeedback(feedbackMsg);
+        // Feedback
+        showFeedback(prize);
 
-        // Quando parar:
-        // - Se NÃO for "TenteNovamente": esconder .text-orint e .infoChanges
-        // - Se for "TenteNovamente": manter ambos visíveis
-        const isTryAgain = feedbackMsg === "TenteNovamente";
+        // Esconde orientações apenas quando ganhou
         if (!isTryAgain) {
             if (textOrint) textOrint.classList.add("hide");
             if (infoChanges) infoChanges.classList.add("hide");
-        } // else: mantém visíveis
+        }
 
-        // Setor 3 não consome chance
+        // "TenteNovamente" NÃO consome chance
         const remaining = getChances();
-        const shouldConsumeChance = sectorNumber !== 3;
-        if (Number.isFinite(remaining) && shouldConsumeChance) {
+        if (Number.isFinite(remaining) && !isTryAgain) {
             setChances(remaining - 1);
         }
 
-        // Confete (opcional)
-        createConfetti();
+        // Confete: APENAS quando NÃO for "TenteNovamente"
+        if (!isTryAgain) {
+            createConfetti();
+        }
 
+        // Normaliza e finaliza
         currentRotation = normalizeDeg(currentRotation);
         wheelImg.style.transform = `rotate(${currentRotation}deg)`;
 
         isSpinning = false;
-
         const stillHasChances = getChances() > 0;
         stopButtonSpinningText(stillHasChances);
         enableButton(stillHasChances);
+
+        // Debug opcional:
+        // console.log({ finalDeg, slot: Math.floor(normalizeDeg(finalDeg - OFFSET_DEG)/SECTOR_SIZE)%SECTORS, sectorIndex, prize });
     };
 
     wheelImg.addEventListener("transitionend", onEnd, { once: true });
@@ -265,7 +268,7 @@ if (spinBtn) {
     spinBtn.addEventListener("click", spin);
 }
 
-// ========== Confete ==========
+// ==================== CONFETE ====================
 function createConfetti() {
     for (let i = 0; i < 50; i++) {
         setTimeout(function () {

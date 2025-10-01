@@ -103,11 +103,11 @@ header .heading-text .infoChanges {
     margin-top: 1em;
 }
 
-header .heading-text .feedback {
+.quiz-container .feedback {
     width: 100%;
 }
 
-header .heading-text .feedback .boxCupom {
+.quiz-container .feedback .boxCupom {
     position: relative;
     display: flex;
     justify-content: center;
@@ -118,7 +118,7 @@ header .heading-text .feedback .boxCupom {
     height: 85px;
 }
 
-header .heading-text .feedback .boxCupom img {
+.quiz-container .feedback .boxCupom img {
     position: absolute;
     width: 100%;
     max-width: 85%;
@@ -126,7 +126,7 @@ header .heading-text .feedback .boxCupom img {
     margin: 0;
 }
 
-header .heading-text .feedback .boxCupom .text .copy {
+.quiz-container .feedback .boxCupom .text .copy {
     z-index: 1;
     position: relative;
     color: #000000;
@@ -135,6 +135,10 @@ header .heading-text .feedback .boxCupom .text .copy {
     justify-content: center;
     font-size: 18px;
     font-weight: 700;
+}
+
+.quiz-container .feedback .subtext {
+    font-size: 10px;
 }
 
 .copy.copied::after {
@@ -276,6 +280,8 @@ header .heading-text .feedback .subtext {
     transition: opacity 0.3s ease-out, transform 0.2s, box-shadow 0.2s;
     min-width: 148px;
     padding: 5px 20px;
+    position: relative;
+    z-index: 1;
 }
 
 .spin-button:hover:not(:disabled) {
