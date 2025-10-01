@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery Box Fashion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="mistery-container">
+        <button class="close-button" aria-label="Fechar" title="Fechar"
+        onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}">&times;</button>
+
+        <div class="mistery-header">
+            <img class="logo" src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_11_15_33_Group_26653583.png" alt="Logotipo dafiti">
+            <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_29_12_58_13_Mystery_Box.svg" alt="">
+            
+            <div class="textInit textA">
+                <p class="text">Escolha dua caixa e descubra o premio!</p>
+            </div>
+            <div class="textInit textB hide">
+                <p class="text">Caixa selecionada</p>
+            </div>
+            <div class="textInit textC hide">
+                <p class="text">Parabéns</p>
+                <p class="text">você ganhou um <b>desconto especial!</b></p>
+            </div>
+        </div>
+        
+        <div class="boxCards">
+            <button class="card">
+                <img src="" alt="">
+                <p class="text"></p>
+            </button>
+        </div>
+
+        <div class="mistery-footer">
+            <div class="feedback hide">
+                <p class="textPremium">XXX</p>
+                <div class="boxCupom" id="boxCupom">
+                    <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_11_17_23_57_Subtract.png" alt="">
+                    <div class="text">
+                        <p class="copy" id="copyCupom"><span id="couponCodeText"></span></p>
+                    </div>
+                </div>
+                <p class="smallText">*Valido por 48 horas!</p>
+            </div>
+        </div>
+
+        <div class="boxButton">
+            <button class="openBox hide">Abrir Caixa!</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
