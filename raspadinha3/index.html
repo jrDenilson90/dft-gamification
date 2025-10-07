@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Raspadinha Fashion</title>
+    <link rel="stylesheet" href="https://use.typekit.net/qlb7ola.css">
+</head>
+
+<body>
+
+    <div class="scratch-container">
+        <button class="close-button" aria-label="Fechar" title="Fechar"
+            onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}">&times;</button>
+        <div class="header">
+            <img class="logo" src="https://dafitistatic.dafiti.com.br/cms/2025_09_24_11_15_33_Group_26653583.png"
+                alt="Logotipo dafiti">
+            <img src="https://dafitistatic.dafiti.com.br/cms/2025_09_25_13_47_49_Raspadinha_fashion.svg" alt=""
+                class="text">
+            <div class="header-message-container">
+                <p id="headerMessage" class="header-message-text">Raspe e descubra seu prêmio!</p>
+                <div id="resultMessage" class="result-message" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="scratch-card" id="scratchCard">
+            <div class="scratch-coupon-bg" id="scratchCouponBg">
+                <img src="" alt="Cupom" class="coupon-image" id="couponImage">
+            </div>
+            <div class="scratch-layer" id="scratchLayer"></div>
+            <canvas class="canvas-overlay" id="scratchCanvas"></canvas>
+        </div>
+
+        <div class="coupon-image-container hide" id="couponImageContainer">
+            <div class="boxCupom" id="boxCupom">
+                <svg width="199" height="71" viewBox="0 0 199 71" fill="#ffe85e" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M179.871 0C190.436 0 199 8.5644 199 19.1289V21.9189C198.866 21.9119 198.731 21.9072 198.596 21.9072C193.078 21.9072 188.605 27.8446 188.605 35.168C188.606 42.4912 193.078 48.4277 198.596 48.4277C198.731 48.4277 198.866 48.4221 199 48.415V51.207C199 61.7715 190.436 70.3359 179.871 70.3359H19.1289C8.5644 70.3359 0 61.7715 0 51.207V49.2412C0.0174693 49.2414 0.0352415 49.2432 0.0527344 49.2432C4.99069 49.2429 8.99316 43.4671 8.99316 36.3428C8.99312 29.2185 4.99066 23.4436 0.0527344 23.4434C0.0352448 23.4434 0.0174659 23.4432 0 23.4434V19.1289C0 8.5644 8.5644 0 19.1289 0H179.871ZM177.426 69.0732H181.129V65.9238H177.426V69.0732ZM19.0068 68.7871H22.71V65.6543H19.0068V68.7871ZM177.426 62.7754H181.129V59.627H177.426V62.7754ZM19.0068 62.5225H22.71V59.3896H19.0068V62.5225ZM177.426 56.4785H181.129V53.3291H177.426V56.4785ZM19.0068 56.2568H22.71V53.124H19.0068V56.2568ZM177.426 50.1807H181.129V47.0322H177.426V50.1807ZM19.0068 49.9922H22.71V46.8594H19.0068V49.9922ZM177.426 43.8838H181.129V40.7344H177.426V43.8838ZM19.0068 43.7266H22.71V40.5938H19.0068V43.7266ZM177.426 37.5859H181.129V34.4375H177.426V37.5859ZM19.0068 37.4619H22.71V34.3291H19.0068V37.4619ZM177.426 31.2881H181.129V28.1396H177.426V31.2881ZM19.0068 31.1963H22.71V28.0635H19.0068V31.1963ZM177.426 24.9912H181.129V21.8428H177.426V24.9912ZM19.0068 24.9316H22.71V21.7988H19.0068V24.9316ZM177.426 18.6934H181.129V15.5449H177.426V18.6934ZM19.0068 18.666H22.71V15.5332H19.0068V18.666ZM19.0068 12.4004H22.71V9.26855H19.0068V12.4004ZM177.426 12.3965H181.129V9.24805H177.426V12.3965ZM19.0068 6.13574H22.71V3.00293H19.0068V6.13574ZM177.426 6.09863H181.129V2.9502H177.426V6.09863Z" />
+                </svg>
+                <div class="text">
+                    <p class="copy" id="copyCupom"><span id="couponCodeText"></span></p>
+                </div>
+            </div>
+            <p class="subtext">*Válido por 48 horas</p>
+            <a class="link-again-btn hide" id="linkAgainBtn" href="http://" target="_blank" rel="noopener noreferrer">
+                Confira
+            </a>
+        </div>
+
+        <p id="couponHintText" class="hint-text" style="display: none;">*Válido por 48 horas!</p>
+
+        <div class="progress-text" id="progressText">Progresso da raspagem:</div>
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <div id="hintText" class="hint-text">Dica: Raspe pelo menos 70% para revelar o prêmio!</div>
+
+        <button class="play-again-btn hide" id="playAgainBtn">
+            Nova raspadinha!
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

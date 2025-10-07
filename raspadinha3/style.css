@@ -1,0 +1,403 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, .7);
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    font-size: 18px;
+    color: #666;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.close-button:hover {
+    background: white;
+    color: #333;
+    transform: scale(1.1);
+}
+
+.scratch-container {
+    background-color: #7B7573;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    padding: 5px 20px 40px;
+    width: 90%;
+    max-width: 320px;
+    text-align: center;
+    position: relative;
+    animation: slideIn 0.5s ease-out;
+    height: 650px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 20px;
+    overflow-x: hidden;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-top: 12px;
+}
+
+.header .logo {
+    width: 80px;
+    height: auto;
+}
+
+.header .text {
+    width: 100%;
+    height: 70px;
+    object-fit: contain;
+    object-position: center;
+}
+
+.header-message-text {
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    text-align: center;
+    margin: 0;
+}
+
+.textPremium h2 {
+    font-size: 22px;
+    font-weight: 300;
+}
+
+.textPremium p {
+    font-size: 15px;
+    font-weight: 300;
+}
+
+.scratch-card {
+    position: relative;
+    width: 260px;
+    height: 260px;
+    margin: 20px auto;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.scratch-coupon-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.coupon-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0;
+    border-radius: 16px;
+    box-shadow: none;
+}
+
+.scratch-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    cursor: crosshair;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 600;
+    pointer-events: none;
+    background: none;
+}
+
+.scratch-instruction {
+    font-size: 16px;
+    margin-bottom: 8px;
+    color: #fff;
+    font-family: "gopher", sans-serif;
+    text-shadow: 1px 1px 4px #000;
+}
+
+.scratch-icon {
+    font-size: 32px;
+    animation: wiggle 1.5s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(0deg);}
+    25% { transform: rotate(-5deg);}
+    75% { transform: rotate(5deg);}
+}
+
+.canvas-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 4;
+    cursor: crosshair;
+    border-radius: 16px;
+}
+
+.progress-bar {
+    background: transparent;
+    border: #ffffff solid 2px;
+    height: 12px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 10px auto;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #000000;
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    width: 0%;
+}
+
+.progress-text {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 500;
+}
+
+.hint-text {
+    width: 80%;
+    font-size: 12px;
+    color: #fff;
+    margin-top: 10px;
+    font-style: italic;
+    font-weight: 300;
+    margin: 0 auto;
+}
+
+.play-again-btn,
+.link-again-btn {
+    width: fit-content;
+    align-items: center;
+    border-radius: 50px;
+    background-color: #ffffff;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+    display: flex;
+    font-family: "Poppins", sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    height: 35px;
+    justify-content: center;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    transition: opacity 0.3s ease-out, transform 0.2s, box-shadow 0.2s;
+    min-width: 148px;
+    padding: 5px 20px;
+    margin: 10px auto 0;
+    text-decoration: none;
+}
+
+.play-again-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 10px rgba(00, 00, 00, 0.3);
+}
+
+.play-again-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+
+.coupon-image-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px auto 10px;
+    cursor: pointer;
+    background: none;
+    position: relative;
+    animation: zoomFeed .3s linear;
+}
+
+@keyframes zoomFeed {
+    0% {
+        transform: scale(.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.coupon-image-container .boxCupom {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 85px;
+    cursor: pointer;
+}
+
+.coupon-image-container .boxCupom svg {
+    position: absolute;
+    width: 100%;
+    max-width: 85%;
+    animation: none;
+    margin: 0;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.coupon-image-container .boxCupom .text .copy {
+    z-index: 1;
+    position: relative;
+    margin: 0;
+    color: #000000;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.copy.copied::after {
+    content: "Copiado!";
+    text-transform: capitalize;
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-6px);
+    background-color: rgb(89 89 89);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1;
+    padding: 6px 10px;
+    border-radius: 6px;
+    opacity: 0;
+    pointer-events: none;
+    animation: copiedFade 2400ms ease forwards;
+    text-align: center;
+}
+
+.copy.copied::before {
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    top: -25px;
+    background-color: rgb(89 89 89);
+    animation: copiedFadeBefore 2400ms ease forwards;
+    opacity: 0;
+}
+
+@keyframes copiedFade {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-6px);
+    }
+    15% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    85% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-6px);
+    }
+}
+
+@keyframes copiedFadeBefore {
+    0% { opacity: 0; }
+    15% { opacity: 1; }
+    85% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.coupon-image-container .subtext {
+    font-size: 12px;
+    font-weight: 300;
+    color: #fff;
+    margin-top: 8px;
+}
+
+.hide {
+    display: none;
+}
+
+.confetti {
+    position: absolute;
+    top: 0;
+    width: 5px;
+    height: 16px;
+    background: #FFE85E;
+    animation: confettiFall 3s linear;
+    pointer-events: none;
+}
+
+@keyframes confettiFall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}

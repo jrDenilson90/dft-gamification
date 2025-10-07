@@ -336,8 +336,8 @@ header .heading-text .feedback .subtext {
 .confetti {
     position: absolute;
     top: 0;
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 16px;
     background: #E73670;
     animation: confettiFall 3s linear;
     pointer-events: none;

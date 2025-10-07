@@ -278,7 +278,7 @@ if (spinBtn) {
 
 // ==================== CONFETE ====================
 function createConfetti() {
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 75; i++) {
         setTimeout(function () {
             const confetti = document.createElement("div");
             confetti.className = "confetti";
