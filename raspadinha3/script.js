@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const cupons = [
+    const DADOS_GAMES = [
         { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_25_16_01_38_Bolsas.png', cupom: 'BOLSAS40', link: 'Link1' },
         { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_25_16_01_41_Belleza.png', cupom: 'BELEZA15', link: 'Link2' },
         { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_25_16_01_44_accesorios.png', cupom: 'ACESSORIOS20', link: 'Link3' },
@@ -59,10 +59,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function getRandomCupom() {
         let idx;
         do {
-            idx = Math.floor(Math.random() * cupons.length);
-        } while (idx === lastCupomIndex && cupons.length > 1);
+            idx = Math.floor(Math.random() * DADOS_GAMES.length);
+        } while (idx === lastCupomIndex && DADOS_GAMES.length > 1);
         lastCupomIndex = idx;
-        return cupons[idx];
+        return DADOS_GAMES[idx];
     }
 
     function generateNewCard() {
