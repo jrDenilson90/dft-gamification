@@ -1,11 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const DADOS_GAMES = [
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_25_16_01_38_Bolsas.png', cupom: 'BOLSAS40', link: 'Link1' },
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_25_16_01_41_Belleza.png', cupom: 'BELEZA15', link: 'Link2' },
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_25_16_01_44_accesorios.png', cupom: 'ACESSORIOS20', link: 'Link3' },
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_25_16_01_33_Pemium.png', cupom: 'PREMIUM30', link: 'Link4' },
-        { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_25_16_01_36_vestidos.png', cupom: 'VESTIDOS25', link: 'Link5' }
-    ];
+    const DADOS_GAMES = {
+        raspadinha: [
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: 'CUPOM1', link: 'Link1' },
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: 'CUPOM2', link: 'Link2' },
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: 'CUPOM3', link: 'Link3' }
+        ],
+        textoLegal: "*Válido na sua próxima compra!"
+    };
+
+    const el = document.querySelector('.coolText');
+    if (el && 'textoLegal' in DADOS_GAMES) {
+        el.innerText = DADOS_GAMES.textoLegal;
+    }
 
     let scratchedPixels = 0;
     let totalPixels = 0;
@@ -59,10 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
     function getRandomCupom() {
         let idx;
         do {
-            idx = Math.floor(Math.random() * DADOS_GAMES.length);
-        } while (idx === lastCupomIndex && DADOS_GAMES.length > 1);
+            idx = Math.floor(Math.random() * DADOS_GAMES.raspadinha.length);
+        } while (idx === lastCupomIndex && DADOS_GAMES.raspadinha.length > 1);
         lastCupomIndex = idx;
-        return DADOS_GAMES[idx];
+        return DADOS_GAMES.raspadinha[idx];
     }
 
     function generateNewCard() {

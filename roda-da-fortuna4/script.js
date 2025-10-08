@@ -9,7 +9,13 @@ const DADOS_GAMES = {
         { cupom: "25OFFVestuário",  link: "link5" },
         { cupom: "25OFFPremium",    link: "link6" }
     ],
+    textoLegal: "*Válido na sua próxima compra!"
 };
+
+const el = document.querySelector('.coolText');
+if (el && 'textoLegal' in DADOS_GAMES) {
+    el.innerText = DADOS_GAMES.textoLegal;
+}
 
 // ==================== CONFIGURAÇÃO ====================
 const MIN_TURNS = 5;
