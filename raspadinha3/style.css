@@ -294,12 +294,16 @@ body {
 .coupon-image-container .boxCupom svg {
     position: absolute;
     width: 100%;
-    max-width: 85%;
+    /* max-width: 85%; */
     animation: none;
     margin: 0;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+
+.coupon-image-container .boxCupom svg path {
+    width: 100%;
 }
 
 .coupon-image-container .boxCupom .text .copy {

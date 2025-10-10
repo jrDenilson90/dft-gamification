@@ -6,12 +6,365 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Roleta da Sorte - Dafiti</title>
-    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, .7);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .quiz-container {
+            background-color: #000000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            padding: 5px 20px 40px;
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+            height: 675px;
+            max-height: 85vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            overflow-x: hidden;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .close-button:hover {
+            background: white;
+            color: #333;
+            transform: scale(1.1);
+        }
+
+        header {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            padding-top: 12px;
+        }
+
+        header .logo {
+            width: 80px;
+            height: auto;
+        }
+
+        header .title {
+            width: 100%;
+            height: 60px;
+            object-fit: contain;
+            object-position: center;
+        }
+
+        header .heading-text {
+            width: 100%;
+        }
+
+        header .heading-text p {
+            color: #ffffff;
+            font-family: "Poppins", sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            text-align: center;
+            margin: 0;
+            text-wrap: pretty;
+        }
+
+        header .heading-text .infoChanges {
+            color: #ffffff;
+            font-weight: 300;
+            font-size: 14px;
+            margin-top: 1em;
+        }
+
+        .quiz-container .feedback {
+            width: 100%;
+            animation: zoomFeed .3s linear;
+        }
+
+        @keyframes zoomFeed {
+            0% {
+                transform: scale(.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .quiz-container .feedback .boxCupom {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px auto 10px;
+            cursor: pointer;
+            width: 100%;
+            height: 85px;
+        }
+
+        .quiz-container .feedback .boxCupom svg {
+            position: absolute;
+            width: 100%;
+            animation: none;
+            margin: 0;
+        }
+
+        .quiz-container .feedback .boxCupom .text .copy {
+            z-index: 1;
+            position: relative;
+            color: #000000;
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .quiz-container .feedback .subtext {
+            font-size: 10px;
+        }
+
+        .copy.copied::after {
+            content: "Copiado!";
+            text-transform: capitalize;
+            position: absolute;
+            top: -30px;
+            background-color: rgb(89 89 89);
+            color: #fff;
+            font-size: 12px;
+            font-weight: 300;
+            line-height: 1;
+            padding: 6px 10px;
+            border-radius: 6px;
+            opacity: 0;
+            transform: translateY(-6px);
+            pointer-events: none;
+            animation: copiedFade 2400ms ease forwards;
+            text-align: center;
+        }
+
+        .copy.copied::before {
+            content: "";
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            bottom: 0;
+            background-color: rgb(89 89 89);
+            transform: rotate(45deg);
+            top: -25px;
+            animation: copiedFadeBefore 2400ms ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes copiedFade {
+            0% {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+
+            15% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            85% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+        }
+
+        @keyframes copiedFadeBefore {
+            0% {
+                opacity: 0;
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            85% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        header .heading-text .feedback .subtext {
+            font-size: 12px;
+            font-weight: 300;
+        }
+
+        .content-area {
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .wheel-wrapper {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1/1;
+            transition-duration: .3s;
+        }
+
+        .wheel-wrapper.zoomOut {
+            width: 80%;
+        }
+
+        .wheel {
+            width: 100%;
+            aspect-ratio: 1/1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .wheel img {
+            height: 120%;
+            object-fit: cover;
+        }
+
+        .pointer {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .pointer svg {
+            fill: #ffffff;
+            filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.25));
+            height: auto;
+            width: 20%;
+        }
+
+        .spin-button,
+        .link-button {
+            align-items: center;
+            border-radius: 50px;
+            background-color: #ffffff;
+            border: none;
+            color: #000000;
+            cursor: pointer;
+            display: flex;
+            font-family: "Poppins", sans-serif;
+            font-size: 12px;
+            font-weight: 300;
+            height: 35px;
+            justify-content: center;
+            letter-spacing: 1.1px;
+            text-transform: uppercase;
+            transition: opacity 0.3s ease-out, transform 0.2s, box-shadow 0.2s;
+            min-width: 148px;
+            width: fit-content;
+            padding: 5px 20px;
+            position: relative;
+            z-index: 1;
+            margin: 0 auto;
+        }
+
+        .link-button {
+            margin: 20px auto 0;
+            text-decoration: none;
+        }
+
+        .spin-button:hover:not(:disabled),
+        .link-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        .spin-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            top: 0;
+            width: 5px;
+            height: 16px;
+            background: #E73670;
+            animation: confettiFall 3s linear;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -49,9 +402,10 @@
         <div class="feedback hide">
             <p>Você ganhou!</p>
             <div class="boxCupom">
-                <svg width="199" height="71" viewBox="0 0 199 71" fill="#ffffff" xmlns="http://www.w3.org/2000/svg">
+                <svg width="265" height="65" viewBox="0 0 265 65" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
-                        d="M179.871 0C190.436 0 199 8.5644 199 19.1289V21.9189C198.866 21.9119 198.731 21.9072 198.596 21.9072C193.078 21.9072 188.605 27.8446 188.605 35.168C188.606 42.4912 193.078 48.4277 198.596 48.4277C198.731 48.4277 198.866 48.4221 199 48.415V51.207C199 61.7715 190.436 70.3359 179.871 70.3359H19.1289C8.5644 70.3359 0 61.7715 0 51.207V49.2412C0.0174693 49.2414 0.0352415 49.2432 0.0527344 49.2432C4.99069 49.2429 8.99316 43.4671 8.99316 36.3428C8.99312 29.2185 4.99066 23.4436 0.0527344 23.4434C0.0352448 23.4434 0.0174659 23.4432 0 23.4434V19.1289C0 8.5644 8.5644 0 19.1289 0H179.871ZM177.426 69.0732H181.129V65.9238H177.426V69.0732ZM19.0068 68.7871H22.71V65.6543H19.0068V68.7871ZM177.426 62.7754H181.129V59.627H177.426V62.7754ZM19.0068 62.5225H22.71V59.3896H19.0068V62.5225ZM177.426 56.4785H181.129V53.3291H177.426V56.4785ZM19.0068 56.2568H22.71V53.124H19.0068V56.2568ZM177.426 50.1807H181.129V47.0322H177.426V50.1807ZM19.0068 49.9922H22.71V46.8594H19.0068V49.9922ZM177.426 43.8838H181.129V40.7344H177.426V43.8838ZM19.0068 43.7266H22.71V40.5938H19.0068V43.7266ZM177.426 37.5859H181.129V34.4375H177.426V37.5859ZM19.0068 37.4619H22.71V34.3291H19.0068V37.4619ZM177.426 31.2881H181.129V28.1396H177.426V31.2881ZM19.0068 31.1963H22.71V28.0635H19.0068V31.1963ZM177.426 24.9912H181.129V21.8428H177.426V24.9912ZM19.0068 24.9316H22.71V21.7988H19.0068V24.9316ZM177.426 18.6934H181.129V15.5449H177.426V18.6934ZM19.0068 18.666H22.71V15.5332H19.0068V18.666ZM19.0068 12.4004H22.71V9.26855H19.0068V12.4004ZM177.426 12.3965H181.129V9.24805H177.426V12.3965ZM19.0068 6.13574H22.71V3.00293H19.0068V6.13574ZM177.426 6.09863H181.129V2.9502H177.426V6.09863Z" />
+                        d="M25.2559 1.67676H28.2559V0H258.594C261.817 0.000193336 264.431 2.61341 264.431 5.83691V20.1875C264.253 20.181 264.073 20.1777 263.894 20.1777C256.562 20.1777 250.618 25.645 250.618 32.3896C250.618 39.1345 256.562 44.6025 263.894 44.6025C264.073 44.6025 264.252 44.5983 264.431 44.5918V58.9434C264.431 62.1668 261.817 64.7801 258.594 64.7803H28.2559V63.7412H25.2559V64.7803H5.83691C2.61334 64.7803 7.164e-05 62.1669 0 58.9434V45.3525C0.0230973 45.3527 0.0462075 45.3535 0.0693359 45.3535C6.63089 45.3535 11.9499 40.0342 11.9502 33.4727C11.9502 26.9109 6.63105 21.5908 0.0693359 21.5908C0.0462095 21.5908 0.0230954 21.5907 0 21.5908V5.83691C0 2.6133 2.6133 1.42239e-05 5.83691 0H25.2559V1.67676ZM233.521 63.2646H236.521V61.2803H233.521V63.2646ZM25.2559 61.7383H28.2559V59.7363H25.2559V61.7383ZM233.521 59.2959H236.521V57.3115H233.521V59.2959ZM25.2559 57.7344H28.2559V55.7324H25.2559V57.7344ZM233.521 55.3281H236.521V53.3438H233.521V55.3281ZM25.2559 53.7305H28.2559V51.7285H25.2559V53.7305ZM233.521 51.3594H236.521V49.375H233.521V51.3594ZM25.2559 49.7266H28.2559V47.7246H25.2559V49.7266ZM233.521 47.3906H236.521V45.4072H233.521V47.3906ZM25.2559 45.7227H28.2559V43.7207H25.2559V45.7227ZM233.521 43.4229H236.521V41.4385H233.521V43.4229ZM25.2559 41.7178H28.2559V39.7158H25.2559V41.7178ZM233.521 39.4541H236.521V37.4697H233.521V39.4541ZM25.2559 37.7139H28.2559V35.7119H25.2559V37.7139ZM233.521 35.4854H236.521V33.502H233.521V35.4854ZM25.2559 33.71H28.2559V31.708H25.2559V33.71ZM233.521 31.5176H236.521V29.5332H233.521V31.5176ZM25.2559 29.7061H28.2559V27.7041H25.2559V29.7061ZM233.521 27.5488H236.521V25.5645H233.521V27.5488ZM25.2559 25.7021H28.2559V23.7002H25.2559V25.7021ZM233.521 23.5801H236.521V21.5967H233.521V23.5801ZM25.2559 21.6973H28.2559V19.6953H25.2559V21.6973ZM233.521 19.6123H236.521V17.6279H233.521V19.6123ZM25.2559 17.6934H28.2559V15.6914H25.2559V17.6934ZM233.521 15.6436H236.521V13.6592H233.521V15.6436ZM25.2559 13.6895H28.2559V11.6875H25.2559V13.6895ZM233.521 11.6758H236.521V9.69141H233.521V11.6758ZM25.2559 9.68555H28.2559V7.68359H25.2559V9.68555ZM233.521 7.70703H236.521V5.72266H233.521V7.70703ZM25.2559 5.68164H28.2559V3.67969H25.2559V5.68164ZM233.521 3.73828H236.521V1.75391H233.521V3.73828Z"
+                        fill="#FFE85E" />
                 </svg>
                 <div class="text">
                     <p class="copy"><span>$$$</span></p>
@@ -62,7 +416,311 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
+    <script>
+        // ==================== DADOS (sentido HORÁRIO) ====================
+        const DADOS_GAMES = {
+            roleta: "https://dafitistatic.dafiti.com.br/cms/2025_09_24_16_33_09_Group_26653586.svg",
+            setores: [
+                { cupom: "20OFFCalçados", link: "link1" },
+                { cupom: "FreteGrátis", link: "link2" },
+                { cupom: "35OFFJoias", link: "link3" },
+                { cupom: "TenteNovamente", link: "link4" },
+                { cupom: "25OFFVestuário", link: "link5" },
+                { cupom: "25OFFPremium", link: "link6" }
+            ],
+            textoLegal: "*Válido na sua próxima compra!"
+        };
+
+        const el = document.querySelector('.coolText');
+        if (el && 'textoLegal' in DADOS_GAMES) {
+            el.innerText = DADOS_GAMES.textoLegal;
+        }
+
+        // ==================== CONFIGURAÇÃO ====================
+        const MIN_TURNS = 5;
+        const EXTRA_TURNS_MAX = 2;
+        const DURATION_MS = 4500;
+        const EASING = "cubic-bezier(0.15, 0.85, 0.15, 1)";
+
+        const SECTORS = DADOS_GAMES.setores.length; // 6
+        const SECTOR_SIZE = 360 / SECTORS;          // 60
+
+        let OFFSET_DEG = 0;
+
+        // ==================== ELEMENTOS ====================
+        const wheelImg = document.querySelector(".wheel img.roleta");
+        const spinBtn = document.getElementById("spin-button");
+        const chancesEl = document.querySelector(".chances");
+
+        // UI
+        const feedbackWrap = document.querySelector(".feedback");
+        const boxCupom = document.querySelector(".boxCupom");
+        const boxCupomSpan = document.querySelector(".boxCupom p span");
+        const textOrint = document.querySelector(".text-orint");
+        const infoChanges = document.querySelector(".infoChanges");
+
+        // ==================== ESTADO ====================
+        let isSpinning = false;
+        let currentRotation = 0;
+        let lastFeedbackText = "";
+
+        // ==================== BOTÃO (animação de texto) ====================
+        let spinDotsTimer = null;
+        let spinDotsStep = 0;
+        const BTN_TEXT_IDLE = "Girar Roda!";
+        const BTN_TEXT_SPIN_BASE = "Girando";
+        const BTN_TEXT_AGAIN = "Girar novamente!";
+        const BTN_TEXT_NO_CHANCES = "Sem giros";
+
+        // ==================== HELPERS ====================
+        function normalizeDeg(deg) {
+            let d = deg % 360;
+            if (d < 0) d += 360;
+            return d;
+        }
+
+        // Mapeamento explícito de SLOT (0..5) → índice no array DADOS_GAMES.setores
+        const ANGLE_SLOT_TO_INDEX = [5, 4, 3, 2, 1, 0];
+
+        function getSectorIndexByAngle(finalDeg) {
+            const aligned = normalizeDeg(finalDeg - OFFSET_DEG);
+            const slot = Math.floor(aligned / SECTOR_SIZE) % SECTORS; // 0..5
+            return ANGLE_SLOT_TO_INDEX[slot];
+        }
+
+        function getChances() {
+            if (!chancesEl) return Infinity;
+            const n = parseInt(chancesEl.textContent.trim(), 10);
+            return Number.isFinite(n) ? n : 0;
+        }
+        function setChances(n) {
+            if (!chancesEl) return;
+            const val = Math.max(0, Math.floor(n));
+            chancesEl.textContent = String(val);
+            enableButton(val > 0 && !isSpinning);
+        }
+
+        function enableButton(enabled) {
+            if (!spinBtn) return;
+            spinBtn.disabled = !enabled;
+            spinBtn.style.opacity = enabled ? "1" : "0.6";
+            spinBtn.style.cursor = enabled ? "pointer" : "not-allowed";
+        }
+        function setButtonText(text) {
+            if (!spinBtn) return;
+            spinBtn.textContent = text;
+        }
+        function fixedDots(step) {
+            const dots = ".".repeat(step); // 0..3
+            const nbsp = "\u00A0".repeat(3 - step);
+            return dots + nbsp;
+        }
+        function startButtonSpinningText() {
+            stopButtonSpinningText();
+            spinDotsStep = 0;
+            setButtonText(`${BTN_TEXT_SPIN_BASE}${fixedDots(3)}`);
+            spinDotsTimer = setInterval(() => {
+                spinDotsStep = (spinDotsStep + 1) % 4;
+                setButtonText(`${BTN_TEXT_SPIN_BASE}${fixedDots(spinDotsStep)}`);
+            }, 350);
+        }
+        function stopButtonSpinningText(hasChancesLeft) {
+            if (spinDotsTimer) {
+                clearInterval(spinDotsTimer);
+                spinDotsTimer = null;
+            }
+            setButtonText(hasChancesLeft ? BTN_TEXT_AGAIN : BTN_TEXT_NO_CHANCES);
+        }
+
+        // ====== FEEDBACK/CÓPIA ======
+        function showFeedback(texto) {
+            if (!feedbackWrap || !boxCupomSpan) return;
+            boxCupomSpan.textContent = texto;
+            lastFeedbackText = texto;
+
+            if (texto === "TenteNovamente") return; // não exibe bloco para tente novamente
+            feedbackWrap.classList.remove("hide");
+        }
+        function hideFeedback() {
+            if (feedbackWrap) feedbackWrap.classList.add("hide");
+        }
+
+        function showCopiedBadge(el) {
+            if (!el) return;
+            clearTimeout(el._copiedTimer);
+            el.classList.add("copied");
+            el._copiedTimer = setTimeout(() => el.classList.remove("copied"), 1500);
+        }
+        function copiaFallback(txt) {
+            const ta = document.createElement("textarea");
+            ta.value = txt;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.left = "-9999px";
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand("copy");
+            document.body.removeChild(ta);
+            if (!ok) throw new Error('execCommand("copy") retornou false');
+        }
+        async function onBoxCupomClick() {
+            const toCopy =
+                (lastFeedbackText || (boxCupomSpan && boxCupomSpan.textContent) || "").trim();
+            const badgeTarget = document.querySelector(".copy") || boxCupom;
+
+            try {
+                if (!navigator.clipboard || !navigator.clipboard.writeText || !window.isSecureContext) {
+                    throw new Error("Clipboard API indisponível");
+                }
+                await navigator.clipboard.writeText(toCopy);
+                showCopiedBadge(badgeTarget);
+            } catch (err) {
+                try {
+                    copiaFallback(toCopy);
+                    showCopiedBadge(badgeTarget);
+                } catch (e) {
+                    console.error("Falha ao copiar:", e);
+                    alert("Não foi possível copiar automaticamente. Selecione e copie manualmente.");
+                }
+            }
+        }
+
+        // ==================== INICIALIZAÇÃO ====================
+        document.addEventListener("DOMContentLoaded", () => {
+            if (chancesEl) setChances(0); // 2 giros
+
+            if (wheelImg) {
+                wheelImg.src = DADOS_GAMES.roleta; // carrega imagem da roleta do JSON
+                wheelImg.style.transformOrigin = "50% 50%";
+                wheelImg.style.willChange = "transform";
+            }
+
+            setButtonText(getChances() > 0 ? BTN_TEXT_IDLE : BTN_TEXT_NO_CHANCES);
+            enableButton(getChances() > 0);
+
+            if (boxCupom) {
+                boxCupom.addEventListener("click", onBoxCupomClick);
+            }
+        });
+
+        // ==================== GIRO ====================
+        function spin() {
+            if (isSpinning) return;
+
+            if (getChances() <= 0) {
+                enableButton(false);
+                setButtonText(BTN_TEXT_NO_CHANCES);
+                return;
+            }
+
+            // Mostrar instruções/infos durante o giro
+            if (textOrint) textOrint.classList.remove("hide");
+            if (infoChanges) infoChanges.classList.remove("hide");
+
+            hideFeedback();
+
+            isSpinning = true;
+            enableButton(false);
+            startButtonSpinningText();
+
+            const extraTurns = Math.floor(Math.random() * (EXTRA_TURNS_MAX + 1));
+            const randomLanding = Math.random() * 360; // CW
+            const totalTurns = MIN_TURNS + extraTurns;
+            const deltaRotation = totalTurns * 360 + randomLanding;
+            const targetRotation = currentRotation + deltaRotation;
+
+            wheelImg.style.transition = `transform ${DURATION_MS}ms ${EASING}`;
+            wheelImg.style.transform = `rotate(${targetRotation}deg)`;
+
+            const onEnd = () => {
+                wheelImg.removeEventListener("transitionend", onEnd);
+
+                wheelImg.style.transition = "none";
+                currentRotation = targetRotation;
+                const finalDeg = normalizeDeg(currentRotation);
+
+                // Index em função do ÂNGULO (respeitando sua ordem e faixas)
+                const sectorIndex = getSectorIndexByAngle(finalDeg);
+                const prize = DADOS_GAMES.setores[sectorIndex];
+                const isTryAgain = prize.cupom === "TenteNovamente";
+
+                // Feedback
+                showFeedback(prize.cupom);
+
+                // Esconde orientações apenas quando ganhou
+                if (!isTryAgain) {
+                    if (textOrint) textOrint.classList.add("hide");
+                    if (infoChanges) infoChanges.classList.add("hide");
+                }
+
+                // "TenteNovamente" NÃO consome chance
+                const remaining = getChances();
+                if (Number.isFinite(remaining) && !isTryAgain) {
+                    setChances(remaining - 1);
+                }
+
+                // Confete: APENAS quando NÃO for "TenteNovamente"
+                if (!isTryAgain) {
+                    createConfetti();
+                }
+
+                // Normaliza e finaliza
+                currentRotation = normalizeDeg(currentRotation);
+                wheelImg.style.transform = `rotate(${currentRotation}deg)`;
+
+                isSpinning = false;
+                const stillHasChances = getChances() > 0;
+                stopButtonSpinningText(stillHasChances);
+                enableButton(stillHasChances);
+
+                const wheelWrapper = document.querySelector('.wheel-wrapper');
+                const spinButton = document.querySelector('.spin-button');
+                const linkButton = document.querySelector('.link-button');
+
+                if (!isTryAgain) {
+                    if (wheelWrapper) wheelWrapper.classList.add('zoomOut');
+                    if (spinButton) spinButton.classList.add('hide');
+                    if (linkButton) {
+                        linkButton.classList.remove('hide');
+                        linkButton.setAttribute('href', prize.link);
+                    }
+                } else {
+                    // Se for "TenteNovamente", mantém o botão ativo e não mexe no wheel-wrapper
+                    if (spinButton) {
+                        spinButton.classList.remove('hide');
+                        enableButton(true); // Garante que o botão está habilitado
+                    }
+                    if (linkButton) linkButton.classList.add('hide');
+                }
+            };
+
+            wheelImg.addEventListener("transitionend", onEnd, { once: true });
+        }
+
+        if (spinBtn) {
+            spinBtn.addEventListener("click", spin);
+        }
+
+        // ==================== CONFETE ====================
+        function createConfetti() {
+            for (let i = 0; i < 75; i++) {
+                setTimeout(function () {
+                    const confetti = document.createElement("div");
+                    confetti.className = "confetti";
+                    confetti.style.left = Math.random() * 100 + "%";
+                    const colors = ["#ffffff", "#ffffff", "#ffffff", "#ffffff"];
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    document.body.appendChild(confetti);
+                    setTimeout(function () {
+                        if (confetti.parentNode) {
+                            confetti.parentNode.removeChild(confetti);
+                        }
+                    }, 3000);
+                }, i * 50);
+            }
+        }
+    </script>
 </body>
 
 </html>

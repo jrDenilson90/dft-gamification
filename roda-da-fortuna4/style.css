@@ -132,7 +132,6 @@ header .heading-text .infoChanges {
 .quiz-container .feedback .boxCupom svg {
     position: absolute;
     width: 100%;
-    height: 100%;
     animation: none;
     margin: 0;
 }

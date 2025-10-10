@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
     const DADOS_GAMES = {
         raspadinha: [
-            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: 'CUPOM1', link: 'Link1' },
-            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: 'CUPOM2', link: 'Link2' },
-            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: 'CUPOM3', link: 'Link3' }
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: '10CATEGORIAS05', link: 'Link1' },
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: '10CATEGORIAS05', link: 'Link1' },
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: '10CATEGORIAS05', link: 'Link1' },
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: '10CATEGORIAS05', link: 'Link1' },
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: '10CATEGORIAS05', link: 'Link1' },
+            { img: 'https://dafitistatic.dafiti.com.br/cms/2025_10_08_13_58_05_Property_1=TENIS-ad464scm93xjy.jpg', cupom: '10CATEGORIAS05', link: 'Link1' }
         ],
         textoLegal: "*Válido na sua próxima compra!"
     };
