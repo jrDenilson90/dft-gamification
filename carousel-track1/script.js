@@ -44,26 +44,30 @@ const DADOS_GAMES = {
     ]
 };
 
-document.addEventListener('DOMContentLoaded', function () {
-    // --- Seletores dos Elementos ---
+document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.querySelector('.carousel-wrapper') || document.getElementById('carouselTrack')?.parentElement;
     const track = document.getElementById('carouselTrack');
     const nav = document.getElementById('carouselNav');
-    const closeButton = document.getElementById('closeButton');
 
-    // --- Estado do Carrossel ---
-    let currentSlide = 0;
+    let currentIndex = 0;
+    const slideCount = DADOS_GAMES.slides.length;
+
+    // estado do drag (em px)
+    let isPointerDown = false;
+    let isDragging = false;
     let startX = 0;
-    let slides = [];     // array de elementos de slide
-    let dots = [];       // array de elementos de nav
+    let currentTranslatePx = 0;
+    let prevTranslatePx = 0;
+    let rafId = null;
 
-    // --- Util ---
-    function createElementFromHTML(html) {
-        const template = document.createElement('template');
-        template.innerHTML = html.trim();
-        return template.content.firstChild;
-    }
+    // config
+    const threshold = 0.5;      // 0.5 => 50% do slide width
+    const dragDetectPx = 5;    // precisa mover >= 5px para iniciar drag
+    const transitionDuration = 220; // ms
+
+    // util
     function escapeHtml(str) {
-        if (!str && str !== 0) return '';
+        if (str === null || str === undefined) return '';
         return String(str)
             .replaceAll('&', '&amp;')
             .replaceAll('<', '&lt;')
@@ -72,178 +76,224 @@ document.addEventListener('DOMContentLoaded', function () {
             .replaceAll("'", '&#39;');
     }
 
-    // Cria slide
-    function buildSlide(data, index) {
-        const hasVideo = !!data.video;
-        const mediaHTML = hasVideo
-            ? `<video muted loop playsinline src="${escapeHtml(data.video)}"></video>`
-            : `<img loading="lazy" src="${escapeHtml(data.img)}" alt="${escapeHtml(data.titulo || '')}">`;
+    function createSlideHTML(item, idx) {
+        const media = item.video
+            ? `<video muted loop playsinline src="${escapeHtml(item.video)}"></video>`
+            : `<img loading="lazy" src="${escapeHtml(item.img)}" alt="${escapeHtml(item.titulo || '')}">`;
 
-        const slideHTML = `
-            <div class="carousel-slide" data-index="${index}">
-                <div class="media-container">${mediaHTML}</div>
-                <div class="slide-content">
-                    <p class="category">${escapeHtml(data.marca || '')}</p>
-                    <h2 class="title">${escapeHtml(data.titulo || '')}</h2>
-                    <p class="description">${escapeHtml(data.description || '')}</p>
-                    <a href="${escapeHtml(data.link || '#')}" class="cta-button" data-tracking-id="${escapeHtml(data.trackingId || '')}">${escapeHtml(DADOS_GAMES.textCta)}</a>
-                </div>
+        return `
+            <div class="carousel-slide" data-index="${idx}" style="min-width:100%; box-sizing:border-box;">
+            <div class="media-container">${media}</div>
+            <div class="slide-content">
+                <p class="category">${escapeHtml(item.marca || '')}</p>
+                <h2 class="title">${escapeHtml(item.titulo || '')}</h2>
+                <p class="description">${escapeHtml(item.description || '')}</p>
+                <a href="${escapeHtml(item.link || '#')}" class="cta-button" data-tracking-id="${escapeHtml(item.trackingId || '')}">${escapeHtml(DADOS_GAMES.textCta)}</a>
+            </div>
             </div>
         `;
-        return createElementFromHTML(slideHTML);
     }
 
-    // Cria dot
-    function buildDot(i) {
-        const dot = document.createElement('div');
-        dot.className = 'nav-dot';
-        dot.setAttribute('data-slide', String(i));
-        dot.setAttribute('role', 'button');
-        dot.setAttribute('aria-label', `Ir para slide ${i + 1}`);
-        dot.tabIndex = 0;
-        dot.addEventListener('click', () => showSlide(i));
-        dot.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') showSlide(i); });
-        return dot;
+    // calculo largura do slide visível (wrapper clientWidth)
+    function getSlideWidth() {
+        if (!wrapper) return window.innerWidth;
+        return wrapper.clientWidth;
     }
 
-    // --- Renderização ---
-    function renderCarousel() {
+    // render
+    function render() {
         track.innerHTML = '';
         nav.innerHTML = '';
-        slides = [];
-        dots = [];
 
-        DADOS_GAMES.slides.forEach((item, idx) => {
-            const slideEl = buildSlide(item, idx);
-            track.appendChild(slideEl);
-            slides.push(slideEl);
-
-            const dot = buildDot(idx);
+        DADOS_GAMES.slides.forEach((it, i) => {
+            track.insertAdjacentHTML('beforeend', createSlideHTML(it, i));
+            const dot = document.createElement('div');
+            dot.className = 'nav-dot';
+            dot.setAttribute('data-slide', String(i));
+            dot.setAttribute('role', 'button');
+            dot.setAttribute('aria-label', `Ir para slide ${i + 1}`);
+            dot.tabIndex = 0;
+            dot.addEventListener('click', () => goTo(i));
             nav.appendChild(dot);
-            dots.push(dot);
         });
 
-        // marca primeiro como ativo
-        if (slides.length) {
-            slides[0].classList.add('active');
-            dots[0].classList.add('active');
-        }
-
+        // inicializa posição
+        updateActiveDot();
+        setTranslateForIndex(currentIndex, false);
         attachCTAListeners();
-        ensureVideoAutoplayForCurrent();
+        ensureVideoAutoplay();
+        addPointerEvents();
     }
 
-    // --- Navegação ---
-    function showSlide(index) {
-        if (index < 0) index = 0;
-        if (index >= slides.length) index = slides.length - 1;
-        slides.forEach(s => s.classList.remove('active'));
+    function updateActiveDot() {
+        const dots = nav.querySelectorAll('.nav-dot');
         dots.forEach(d => d.classList.remove('active'));
-
-        const slide = slides[index];
-        if (!slide) return;
-        slide.classList.add('active');
-        dots[index].classList.add('active');
-        currentSlide = index;
-        handleVideoPlayback(index);
+        const active = nav.querySelector(`.nav-dot[data-slide="${currentIndex}"]`);
+        if (active) active.classList.add('active');
     }
 
-    function handleVideoPlayback(activeIndex) {
-        slides.forEach((s, i) => {
-            const videoEl = s.querySelector('video');
-            if (videoEl) {
-                if (i === activeIndex) {
-                    videoEl.muted = true;
-                    const p = videoEl.play();
-                    if (p !== undefined) p.catch(() => { /* autoplay bloqueado */ });
+    function setTranslateForIndex(index, withTransition) {
+        const slideW = getSlideWidth();
+        const targetPx = -index * slideW;
+        if (withTransition) track.style.transition = `transform ${transitionDuration}ms ease`;
+        else track.style.transition = 'none';
+        track.style.transform = `translateX(${targetPx}px)`;
+        prevTranslatePx = targetPx;
+        currentTranslatePx = targetPx;
+    }
+
+    function goTo(index) {
+        if (index < 0) index = 0;
+        if (index >= slideCount) index = slideCount - 1;
+        currentIndex = index;
+        updateActiveDot();
+        setTranslateForIndex(currentIndex, true);
+        handleVideoPlayback();
+    }
+
+    function goNext() { goTo(currentIndex + 1); }
+    function goPrev() { goTo(currentIndex - 1); }
+
+    // video helpers
+    function ensureVideoAutoplay() {
+        const firstVideo = track.querySelector('video');
+        if (firstVideo) {
+            firstVideo.muted = true;
+            const p = firstVideo.play();
+            if (p !== undefined) p.catch(() => { });
+        }
+    }
+    function handleVideoPlayback() {
+        const slidesEls = track.querySelectorAll('.carousel-slide');
+        slidesEls.forEach((s, idx) => {
+            const v = s.querySelector('video');
+            if (v) {
+                if (idx === currentIndex) {
+                    v.muted = true;
+                    const p = v.play();
+                    if (p !== undefined) p.catch(() => { });
                 } else {
-                    try { videoEl.pause(); videoEl.currentTime = 0; } catch (e) { /* ignore */ }
+                    try { v.pause(); v.currentTime = 0; } catch (e) { }
                 }
             }
         });
     }
 
-    function ensureVideoAutoplayForCurrent() {
-        const activeVideo = track.querySelector('.carousel-slide.active video') || track.querySelector('video');
-        if (activeVideo) {
-            activeVideo.muted = true;
-            const p = activeVideo.play();
-            if (p !== undefined) p.catch(err => console.log('Autoplay do vídeo bloqueado pelo navegador.', err));
-        }
-    }
-
-    // --- Swipe (touch) ---
-    track.addEventListener('touchstart', (e) => { startX = e.touches[[0]]().clientX; }, { passive: true });
-    track.addEventListener('touchend', (e) => {
-        const endX = e.changedTouches[[0]]().clientX;
-        const diffX = startX - endX;
-        if (Math.abs(diffX) > 50) {
-            if (diffX > 0) { showSlide(currentSlide + 1); }
-            else { showSlide(currentSlide - 1); }
-        }
-    });
-
-    // --- Mouse drag (desktop) ---
-    let isDown = false, startDragX = 0;
-    track.addEventListener('mousedown', e => { isDown = true; startDragX = e.clientX; track.classList.add('dragging'); });
-    document.addEventListener('mouseup', e => {
-        if (!isDown) return;
-        isDown = false;
-        track.classList.remove('dragging');
-        const diff = startDragX - e.clientX;
-        if (Math.abs(diff) > 50) {
-            if (diff > 0) showSlide(currentSlide + 1);
-            else showSlide(currentSlide - 1);
-        }
-    });
-
-    // --- Tracking e CTA listeners ---
+    // tracking CTA (evita clique após drag)
     function attachCTAListeners() {
         const ctas = track.querySelectorAll('.cta-button');
         ctas.forEach(btn => {
-            btn.addEventListener('click', (ev) => {
-                const trackingId = btn.getAttribute('data-tracking-id');
-                if (trackingId) {
-                    try {
-                        if (window.brazeBridge && typeof brazeBridge.logClick === 'function') {
-                            brazeBridge.logClick(trackingId);
-                        }
-                    } catch (e) {
-                        console.error('Braze Bridge não disponível.', e);
-                    }
+            btn.addEventListener('click', (e) => {
+                if (isDragging) {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    return;
                 }
-                // não previne o comportamento do link (deeplink dafiti://)
+                const id = btn.getAttribute('data-tracking-id');
+                if (id) {
+                    try { window.brazeBridge && brazeBridge.logClick && brazeBridge.logClick(id); } catch (err) { }
+                }
             });
         });
     }
 
-    // --- Botão de fechar ---
-    closeButton.addEventListener('click', () => {
-        try {
-            if (window.brazeBridge && typeof brazeBridge.logClick === 'function') {
-                brazeBridge.logClick('close_button_clicked');
-                brazeBridge.closeMessage && brazeBridge.closeMessage();
-            }
-        } catch (e) {
-            console.error('Braze Bridge não disponível.', e);
+    // pointer events (baseado em px)
+    function addPointerEvents() {
+        track.addEventListener('pointerdown', onPointerDown);
+        track.addEventListener('pointermove', onPointerMove);
+        window.addEventListener('pointerup', onPointerUp);
+        window.addEventListener('pointercancel', onPointerUp);
+        track.style.touchAction = 'pan-y';
+        window.addEventListener('resize', () => {
+            // ao redimensionar, recalcula a posição para o slide atual
+            setTranslateForIndex(currentIndex, false);
+        });
+    }
+
+    function onPointerDown(e) {
+        isPointerDown = true;
+        isDragging = false;
+        startX = getClientX(e);
+        // sem transição enquanto arrasta
+        track.style.transition = 'none';
+        try { track.setPointerCapture && track.setPointerCapture(e.pointerId); } catch (_) { }
+        rafId = requestAnimationFrame(renderWhileDragging);
+    }
+
+    function onPointerMove(e) {
+        if (!isPointerDown) return;
+        const x = getClientX(e);
+        const movedPx = x - startX;
+
+        // inicia drag somente se mover o suficiente
+        if (!isDragging && Math.abs(movedPx) > dragDetectPx) {
+            isDragging = true;
         }
-        const overlay = document.querySelector('.modal-overlay');
-        if (overlay) overlay.remove();
-    });
+        if (!isDragging) return;
 
-    // --- Inicialização ---
-    renderCarousel();
+        // usa prevTranslatePx + movedPx, mas clamp entre limites
+        const slideW = getSlideWidth();
+        const tentativePx = prevTranslatePx + movedPx;
+        const maxPx = 0;
+        const minPx = -((slideCount - 1) * slideW);
+        currentTranslatePx = Math.max(Math.min(tentativePx, maxPx), minPx);
 
-    // Exibe primeiro slide (caso renderCarousel não tenha marcado)
-    if (slides.length) showSlide(0);
+        // apply immediate transform (via RAF loop)
+    }
 
-    // Teclado
+    function onPointerUp(e) {
+        if (!isPointerDown) return;
+        isPointerDown = false;
+        cancelAnimationFrame(rafId);
+
+        const endX = getClientX(e);
+        const movedPx = endX - startX;
+        const slideW = getSlideWidth();
+        const neededPx = slideW * threshold;
+
+        if (isDragging) {
+            if (movedPx <= -neededPx && currentIndex < slideCount - 1) {
+                currentIndex += 1;
+            } else if (movedPx >= neededPx && currentIndex > 0) {
+                currentIndex -= 1;
+            }
+            updateActiveDot();
+            setTranslateForIndex(currentIndex, true);
+            handleVideoPlayback();
+        } else {
+            // clique curto: restaura a posição do slide atual
+            setTranslateForIndex(currentIndex, true);
+        }
+
+        // atualiza prevTranslatePx (fixa posição)
+        prevTranslatePx = -currentIndex * slideW;
+        currentTranslatePx = prevTranslatePx;
+
+        try { track.releasePointerCapture && track.releasePointerCapture(e.pointerId); } catch (_) { }
+        // limpa flag de dragging ligeiramente depois para permitir clicks
+        setTimeout(() => { isDragging = false; }, 50);
+    }
+
+    function renderWhileDragging() {
+        track.style.transform = `translateX(${currentTranslatePx}px)`;
+        if (isPointerDown) rafId = requestAnimationFrame(renderWhileDragging);
+    }
+
+    function getClientX(e) {
+        if (e.touches && e.touches[[0]]()) return e.touches[[0]]().clientX;
+        if (typeof e.clientX === 'number') return e.clientX;
+        return 0;
+    }
+
+    // teclado
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
-        if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
-        if (e.key === 'Escape') closeButton.click();
+        if (e.key === 'ArrowRight') goNext();
+        if (e.key === 'ArrowLeft') goPrev();
     });
 
-    // debug
-    window._carousel = { showSlide, getCurrent: () => currentSlide, slides };
+    // inicializa
+    render();
+
+    // debug API
+    window._carousel = { goTo, goNext, goPrev, getCurrent: () => currentIndex };
 });
