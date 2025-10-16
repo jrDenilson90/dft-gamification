@@ -458,7 +458,7 @@
     <!-- <script src="script.js"></script> -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const cupons = [
+            const DADOS_GAMES = [
                 { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_36_57_mask1.png', descriptionPremium: '25% em tudo!', descriptionImg: 'Brisa Coral', cupom: 'TUDO25' },
                 { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_36_59_mask2.png', descriptionPremium: '20% em tudo!', descriptionImg: 'Céu Radiante', cupom: 'TUDO20' },
                 { img: 'https://dafitistatic.dafiti.com.br/cms/2025_09_29_13_37_01_mask3.png', descriptionPremium: '15% em tudo!', descriptionImg: 'Sol Laranja', cupom: 'TUDO15' },
@@ -512,7 +512,7 @@
                 document.querySelectorAll('.card').forEach(card => {
                     card.addEventListener('click', function () {
                         const idx = Number(this.dataset.index ?? -1);
-                        selectedItem = cupons[idx] || null;
+                        selectedItem = DADOS_GAMES[idx] || null;
                         selectedCoupon = this.dataset.cupom || selectedItem?.cupom || null;
 
                         document.querySelectorAll('.card').forEach(other => {
@@ -618,7 +618,7 @@
             }
 
             // Init
-            renderCards(cupons);
+            renderCards(DADOS_GAMES);
             animacard();
         });
 
