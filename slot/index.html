@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>Fashion Slot - Dafiti</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="quiz-container">
+      <button
+        class="close-button"
+        aria-label="Fechar"
+        title="Fechar"
+        onclick="try{braze.bridge.closeMessage()}catch(e){try{appboyBridge.closeMessage()}catch(e2){document.body.style.display='none';}}"
+      >
+        &times;
+      </button>
+
+      <header>
+        <img class="logo" src="https://dafitistatic.dafiti.com.br/cms/svg/2025_10_27_17_21_49_dafiti-slot.svg" alt="Logotipo dafiti" />
+        <img class="title" src="https://dafitistatic.dafiti.com.br/cms/svg/2025_10_27_17_21_51_fashion-slot.svg" alt="Fashion Slot" />
+
+        <div class="heading-text">
+          <p class="text-orint">Gire e ganhe prêmios incríveis!</p>
+          <p class="infoChanges">
+            Tentativas restantes: <span class="chances">2</span>
+          </p>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <div class="slot-wrapper">
+          <div class="slot-box"></div>
+
+          <svg class="lever" width="25" height="112" viewBox="0 0 25 112" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.0681 87.2611C14.0677 82.6267 10.48 78.8619 6.00969 78.7428V95.7748C10.4802 95.6557 14.0681 91.8958 14.0681 87.2611ZM18.5333 87.2611C18.5333 94.5117 12.829 100.389 5.79166 100.389H1.54443V74.1333H5.79166C12.8288 74.1333 18.533 80.0107 18.5333 87.2611Z" fill="white"/>
+            <path d="M10.8111 24.7111L10.8111 75.6778L6.17774 75.6778L6.17773 24.7111L10.8111 24.7111Z" fill="white"/>
+            <path d="M8 0C5.2 0 2.83333 2 2 3C0.4 4.6 0 7.33333 0 8.5V17.5C0 18.6667 0.5 21.1 1.5 22.5C4 26 9 27.5 13 25C16.2 23 17 19.5 17 18V10.5C17 8.5 17 5 15 3C13 1 11.5 0 8 0Z" fill="white"/>
+          </svg>
+        </div>
+        <button class="spin-button" id="spin-button">Girar agora!</button>
+      </div>
+
+      <div class="feedback hide">
+            <p>Você ganhou!</p>
+            <div class="boxCupom">
+                <svg width="265" height="65" viewBox="0 0 265 65" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M25.2559 1.67676H28.2559V0H258.594C261.817 0.000193336 264.431 2.61341 264.431 5.83691V20.1875C264.253 20.181 264.073 20.1777 263.894 20.1777C256.562 20.1777 250.618 25.645 250.618 32.3896C250.618 39.1345 256.562 44.6025 263.894 44.6025C264.073 44.6025 264.252 44.5983 264.431 44.5918V58.9434C264.431 62.1668 261.817 64.7801 258.594 64.7803H28.2559V63.7412H25.2559V64.7803H5.83691C2.61334 64.7803 7.164e-05 62.1669 0 58.9434V45.3525C0.0230973 45.3527 0.0462075 45.3535 0.0693359 45.3535C6.63089 45.3535 11.9499 40.0342 11.9502 33.4727C11.9502 26.9109 6.63105 21.5908 0.0693359 21.5908C0.0462095 21.5908 0.0230954 21.5907 0 21.5908V5.83691C0 2.6133 2.6133 1.42239e-05 5.83691 0H25.2559V1.67676ZM233.521 63.2646H236.521V61.2803H233.521V63.2646ZM25.2559 61.7383H28.2559V59.7363H25.2559V61.7383ZM233.521 59.2959H236.521V57.3115H233.521V59.2959ZM25.2559 57.7344H28.2559V55.7324H25.2559V57.7344ZM233.521 55.3281H236.521V53.3438H233.521V55.3281ZM25.2559 53.7305H28.2559V51.7285H25.2559V53.7305ZM233.521 51.3594H236.521V49.375H233.521V51.3594ZM25.2559 49.7266H28.2559V47.7246H25.2559V49.7266ZM233.521 47.3906H236.521V45.4072H233.521V47.3906ZM25.2559 45.7227H28.2559V43.7207H25.2559V45.7227ZM233.521 43.4229H236.521V41.4385H233.521V43.4229ZM25.2559 41.7178H28.2559V39.7158H25.2559V41.7178ZM233.521 39.4541H236.521V37.4697H233.521V39.4541ZM25.2559 37.7139H28.2559V35.7119H25.2559V37.7139ZM233.521 35.4854H236.521V33.502H233.521V35.4854ZM25.2559 33.71H28.2559V31.708H25.2559V33.71ZM233.521 31.5176H236.521V29.5332H233.521V31.5176ZM25.2559 29.7061H28.2559V27.7041H25.2559V29.7061ZM233.521 27.5488H236.521V25.5645H233.521V27.5488ZM25.2559 25.7021H28.2559V23.7002H25.2559V25.7021ZM233.521 23.5801H236.521V21.5967H233.521V23.5801ZM25.2559 21.6973H28.2559V19.6953H25.2559V21.6973ZM233.521 19.6123H236.521V17.6279H233.521V19.6123ZM25.2559 17.6934H28.2559V15.6914H25.2559V17.6934ZM233.521 15.6436H236.521V13.6592H233.521V15.6436ZM25.2559 13.6895H28.2559V11.6875H25.2559V13.6895ZM233.521 11.6758H236.521V9.69141H233.521V11.6758ZM25.2559 9.68555H28.2559V7.68359H25.2559V9.68555ZM233.521 7.70703H236.521V5.72266H233.521V7.70703ZM25.2559 5.68164H28.2559V3.67969H25.2559V5.68164ZM233.521 3.73828H236.521V1.75391H233.521V3.73828Z"
+                        fill="#FFE85E" />
+                </svg>
+                <div class="text">
+                    <p class="copy"><span>$$$</span></p>
+                </div>
+            </div>
+            <p class="subtext coolText">*Texto Legal</p>
+            <a class="link-button hide" id="link-button" href="" target="_blank" rel="noopener noreferrer">CONFIRA</a>
+        </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
