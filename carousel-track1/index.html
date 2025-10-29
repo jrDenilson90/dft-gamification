@@ -108,7 +108,6 @@
         /* media container mantém aspecto e borda */
         .media-container {
             width: 100%;
-            aspect-ratio: 16 / 9;
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 12px;
@@ -121,6 +120,7 @@
             height: 100%;
             display: block;
             object-fit: cover;
+            pointer-events: none;
         }
 
         /* se quiser diminuir o zoom do vídeo, mantenha; caso contrário remova */
@@ -260,6 +260,14 @@
             slides: [
                 {
                     video: 'https://res.cloudinary.com/dlkvec7ey/video/upload/v1759521111/superstar_vdyhk6.mp4',
+                    marca: 'adidas',
+                    titulo: 'Superstar II Branco',
+                    description: 'O clássico para quem busca estilo autêntico e atitude urbana em todos os passos.',
+                    link: 'dafiti://br/d/AD464SCF93VGG',
+                    trackingId: 'cta_superstar_branco'
+                },
+                {
+                    img: 'https://braze-images.com/appboy/communication/assets/image_assets/images/69022fb5638adf00648935ed/original.png?1761750965',
                     marca: 'adidas',
                     titulo: 'Superstar II Branco',
                     description: 'O clássico para quem busca estilo autêntico e atitude urbana em todos os passos.',

@@ -99,7 +99,6 @@ html {
 /* media container mantém aspecto e borda */
 .media-container {
     width: 100%;
-    aspect-ratio: 16 / 9;
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 12px;
@@ -112,6 +111,7 @@ html {
     height: 100%;
     display: block;
     object-fit: cover;
+    pointer-events: none;
 }
 
 /* se quiser diminuir o zoom do vídeo, mantenha; caso contrário remova */
