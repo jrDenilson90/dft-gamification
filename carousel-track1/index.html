@@ -35,7 +35,7 @@
 
         .modal-content {
             background: #ffffff;
-            width: 90%;
+            width: 90dvw;
             max-width: 320px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -47,7 +47,19 @@
             -webkit-backdrop-filter: blur(10px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
+        
+        @media screen and (-webkit-min-device-pixel-ratio: 3) {
+            .modal-content {
+                max-width: 400px;
+                width: 92dvw;
+            }
+        }
 
+        @media screen and (-webkit-min-device-pixel-ratio: 3) and (min-width: 400px) {
+            .modal-content {
+                max-width: 440px;
+            }
+        }
         .close-button {
             position: absolute;
             top: 12px;
@@ -108,24 +120,27 @@
         /* media container mantém aspecto e borda */
         .media-container {
             width: 100%;
-            border-radius: 8px;
+            border-radius: 35px;
             overflow: hidden;
             margin-bottom: 12px;
             background-color: #f0f0f0;
         }
 
+        @supports (corner-shape:squircle){
+            .media-container {
+                border-radius:82px;
+                corner-shape:squircle;
+            }
+        }
+
         .media-container img,
         .media-container video {
+            aspect-ratio: 1;
             width: 100%;
             height: 100%;
             display: block;
             object-fit: cover;
             pointer-events: none;
-        }
-
-        /* se quiser diminuir o zoom do vídeo, mantenha; caso contrário remova */
-        .media-container video {
-            transform: scale(1.2);
         }
 
         /* conteúdo textual */
@@ -171,24 +186,37 @@
 
         /* nav (dots) */
         .carousel-nav {
+            align-items: center;
+            bottom: 5px;
             display: flex;
+            gap: 5px;
             justify-content: center;
-            padding: 12px 0 18px 0;
+            margin: 0;
+            padding: 20px 0;
+            width: 100%;
+        }
+
+        .carousel-nav:has(.nav-dot:nth-child(1):last-child) {
+            display: none;
         }
 
         .nav-dot {
-            width: 8px;
-            height: 8px;
+            background: 0 0;
+            border: 1.5px solid #ffffff;
+            box-shadow: 0 0 2px 1px rgba(0, 0, 0, .5);
+            box-sizing: border-box;
             border-radius: 50%;
-            background-color: #dcdcdc;
-            margin: 0 5px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
             cursor: pointer;
+            padding: 0;
+            transition: all 0.3s cubic-bezier(0.51, 0.92, 0.24, 1);
+            height: 10px;
+            width: 10px;
         }
 
         .nav-dot.active {
-            background-color: #333;
-            transform: scale(1.2);
+            border-radius: 11px;
+            background: #ffffff;
+            width: 28px;
         }
 
         /* small screens tweaks */
@@ -259,52 +287,12 @@
             textCta: 'Ver detalhes',
             slides: [
                 {
-                    video: 'https://res.cloudinary.com/dlkvec7ey/video/upload/v1759521111/superstar_vdyhk6.mp4',
-                    marca: 'adidas',
-                    titulo: 'Superstar II Branco',
-                    description: 'O clássico para quem busca estilo autêntico e atitude urbana em todos os passos.',
-                    link: 'dafiti://br/d/AD464SCF93VGG',
-                    trackingId: 'cta_superstar_branco'
-                },
-                {
-                    img: 'https://braze-images.com/appboy/communication/assets/image_assets/images/69022fb5638adf00648935ed/original.png?1761750965',
-                    marca: 'adidas',
-                    titulo: 'Superstar II Branco',
-                    description: 'O clássico para quem busca estilo autêntico e atitude urbana em todos os passos.',
-                    link: 'dafiti://br/d/AD464SCF93VGG',
-                    trackingId: 'cta_superstar_branco'
-                },
-                {
-                    img: 'https://braze-images.com/appboy/communication/assets/image_assets/images/68e3a93405a596006390323e/original.jpg?1759750451',
-                    marca: 'adidas',
-                    titulo: 'Superstar II Preto',
-                    description: 'Para quem quer marcar presença: design icônico, preto intenso e personalidade em qualquer ocasião.',
-                    link: 'dafiti://br/d/AD464SCU37VTY',
-                    trackingId: 'cta_superstar_preto'
-                },
-                {
-                    img: 'https://braze-images.com/appboy/communication/assets/image_assets/images/68e3a9342caadf0063700912/original.jpg?1759750452',
-                    marca: 'adidas',
-                    titulo: 'Superstar II Preto Estampado',
-                    description: 'Versão reimaginada com estampa para quem busca ousadia.',
-                    link: 'dafiti://br/d/AD464SCF00NXZ',
-                    trackingId: 'cta_superstar_estampado'
-                },
-                {
-                    img: 'https://braze-images.com/appboy/communication/assets/image_assets/images/68e3a934ff238c0065d6021b/original.jpg?1759750452',
-                    marca: 'adidas',
-                    titulo: 'Superstar II Branco (All White)',
-                    description: 'Todo em branco, é a escolha perfeita para quem busca dar um toque de tradição no visual.',
-                    link: 'dafiti://br/d/AD464SCU01NXY',
-                    trackingId: 'cta_superstar_allwhite'
-                },
-                {
-                    img: 'https://braze-images.com/appboy/communication/assets/image_assets/images/68e3a934a7d96000653ff38b/original.jpg?1759750452',
-                    marca: 'adidas',
-                    titulo: 'Superstar Slip On Preto',
-                    description: 'Versão "Slip On" do Superstar, sem cadarços e com elásticos cruzados. Combinação de praticidade e inovação.',
-                    link: 'dafiti://br/d/AD464SCF72QTB',
-                    trackingId: 'cta_superstar_slipon'
+                    video: 'https://static.dafiti.com.br/cms/onsite/2025/nike-cortez20251105.mp4',
+                    marca: 'Nike',
+                    titulo: 'Nike Cortez Feminino',
+                    description: 'O clássico que conquistou as ruas está de volta com tudo. O Nike Cortez Feminino traz o estilo retrô que você ama, agora com um toque moderno para o seu dia a dia.',
+                    link: 'dafiti://br/d/NI288SHF58GAB',
+                    trackingId: 'cta_nike_cortez'
                 }
             ]
         };
