@@ -4,16 +4,16 @@
             title: "Parte Superior",
             items: [
                 {
-                    img: 'https://t-static.dafiti.com.br/hHV7Hc-rQdJ__VGA-Auxkm8SBf8=/fit-in/430x623/static.dafiti.com.br/p/lez-a-lez-regata-cropped-lez-a-lez-ajustada-lisa-preta-9630-79143341-1-zoom.jpg',
-                    sku: 'SKU-A1'
+                    img: 'https://t-static.dafiti.com.br/bbGookK2YhEtd4hvMlgjWDT7uBk=/fit-in/430x623/static.dafiti.com.br/p/aeropostale-camiseta-aeropostale-reta-estampada-off-white-1658-16377241-1-zoom.jpg',
+                    sku: 'AE553APM38IJH'
                 },
                 {
-                    img: 'https://t-static.dafiti.br/_YVZ19PNPYb5a5blfrHe23uP838=/fit-in/430x623/static.dafiti.com.br/p/vans-camiseta-cropped-vans-relaxed-logo-branca-0206-15322541-1-zoom.jpg',
-                    sku: 'SKU-A2'
+                    img: 'https://t-static.dafiti.com.br/h6zrrQaZGqhfTAabkgYuJtD4RY4=/fit-in/430x623/static.dafiti.com.br/p/osklen-camiseta-osklen-united-kingdom-preta-7199-75686931-1-zoom.jpg',
+                    sku: 'OS047APM42TSB'
                 },
                 {
-                    img: 'https://t-static.dafiti.com.br/pl2gcMb8qqrrPVNUckUh0sCPB-Q=/fit-in/430x623/static.dafiti.com.br/p/hering-regata-feminina-decote-reto-hering-5062-97121841-1-zoom.jpg',
-                    sku: 'SKU-A3'
+                    img: 'https://t-static.dafiti.com.br/k1mh3-mfaQzXZTiqya39I7PCIrY=/fit-in/430x623/static.dafiti.com.br/p/osklen-camiseta-osklen-reta-label-verde-2138-21405331-1-zoom.jpg',
+                    sku: 'OS047APM87PDK'
                 }
             ]
         },
@@ -21,16 +21,16 @@
             title: "Parte Inferior",
             items: [
                 {
-                    img: 'https://t-static.dafiti.com.br/2nIu1T2lH587CA8x74R25kLLHNo=/fit-in/430x623/static.dafiti.com.br/p/lan%C3%A7a-perfume-cal%C3%A7a-jeans-lan%C3%A7a-perfume-wide-leg-lisa-azul-9506-77832541-1-zoom.jpg',
-                    sku: 'SKU-B1'
+                    img: 'https://static.dafiti.com.br/p/Youcom-Cal%C3%A7a-Jeans-Preta-Baggy-Cargo-8907-59072741-4-zoom.jpg',
+                    sku: 'YO938APM04XQT'
                 },
                 {
-                    img: 'https://static.dafiti.com.br/p/Hering-Cal%C3%A7a-Jeans-B%C3%A1sica-Feminina-Cintura-M%C3%A9dia-Flare-Petit-9439-81074341-5-zoom.jpg',
-                    sku: 'SKU-B2'
+                    img: 'https://t-static.dafiti.com.br/Zu9-oR1xAbq9ysANI9pyho92gG8=/fit-in/430x623/static.dafiti.com.br/p/gap-cal%C3%A7a-sarja-gap-slim-pockets-off-white-0609-46084541-1-zoom.jpg',
+                    sku: '2FAE553APM38IJH'
                 },
                 {
-                    img: 'https://t-static.dafiti.com.br/wVCo_UGjgOcWUwp6a2iZFvMjfLg=/fit-in/430x623/static.dafiti.com.br/p/lan%C3%A7a-perfume-cal%C3%A7a-jeans-feminina-lan%C3%A7a-perfume-wide-leg-azul-m%C3%A9dio-4320-96905741-1-zoom.jpg',
-                    sku: 'SKU-B3'
+                    img: 'https://static.dafiti.com.br/p/Youcom-Cal%C3%A7a-Reta-Jeans-Claro-6442-85246141-5-zoom.jpg',
+                    sku: 'YO938APM41XBE'
                 }
             ]
         },
@@ -38,16 +38,16 @@
             title: "Calçados",
             items: [
                 {
-                    img: 'https://static.dafiti.com.br/p/Beira-Rio-Sand%C3%A1lia-Beira-Rio-Recortes-Preta-8145-09614241-3-zoom.jpg',
-                    sku: 'SKU-C1'
+                    img: 'https://t-static.dafiti.com.br/Co5ne6GSWYeQkN0RVwYdhNl4Q4c=/fit-in/430x623/static.dafiti.com.br/p/new-balance-t%C3%AAnis--new-balance-740-branco-2612-26302541-1-zoom.jpg',
+                    sku: 'NE184SCF37DVM'
                 },
                 {
-                    img: 'https://static.dafiti.com.br/p/adidas-Originals-T%C3%AAnis-adidas-Originals-Superstar-Branco-8277-3749605-3-zoom.jpg',
-                    sku: 'SKU-C2'
+                    img: 'https://t-static.dafiti.com.br/o6oeaPRssxk5VVBjMwKx_R3vNh0=/fit-in/430x623/static.dafiti.com.br/p/nike-t%C3%AAnis-nike-pacific-feminino-4198-24502741-1-zoom.jpg',
+                    sku: 'NI288SHF57NYS'
                 },
                 {
-                    img: 'https://static.dafiti.com.br/p/Vizzano-Scarpin-Vizzano-Salto-Grosso-Off-White-1409-24040921-3-zoom.jpg',
-                    sku: 'SKU-C3'
+                    img: 'https://t-static.dafiti.com.br/5TUPW5AluReDbWvsl9qsPbWDIRI=/fit-in/430x623/static.dafiti.com.br/p/asics-t%C3%AAnis-asics-gel-nunobiki-branco-0304-76343541-1-zoom.jpg',
+                    sku: 'AS296SCF32YOD'
                 }
             ]
         }
@@ -125,10 +125,14 @@
             selectedSkus.push(currentItem.sku);
         }
         
+        // 1. Junta todos os SKUs com o separador '--'
         const skuList = selectedSkus.join('--');
-        const deepLinkBase = 'logotipo://br/c?pathUrl=%26filters%3Dsku%SKU';
         
-        const finalDeepLink = deepLinkBase.replace('sku%SKU', 'sku%2F' + skuList); 
+        // 2. Define a base do Deep Link
+        const deepLinkBase = 'dafiti://br/c?pathUrl=%26filters%3Dsku%3D';
+        
+        // 3. Concatena a base com a lista de SKUs
+        const finalDeepLink = deepLinkBase + skuList;
         
         document.getElementById('buyLookLink').href = finalDeepLink;
         
