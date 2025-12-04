@@ -26,7 +26,7 @@
                 },
                 {
                     img: 'https://t-static.dafiti.com.br/Zu9-oR1xAbq9ysANI9pyho92gG8=/fit-in/430x623/static.dafiti.com.br/p/gap-cal%C3%A7a-sarja-gap-slim-pockets-off-white-0609-46084541-1-zoom.jpg',
-                    sku: '2FAE553APM38IJH'
+                    sku: 'GA575APM35SUY'
                 },
                 {
                     img: 'https://static.dafiti.com.br/p/Youcom-Cal%C3%A7a-Reta-Jeans-Claro-6442-85246141-5-zoom.jpg',
