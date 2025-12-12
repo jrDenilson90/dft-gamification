@@ -8,20 +8,6 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-        :root {
-            --white: #fff;
-            --black: #000;
-            --text: #101B24;
-            --grey-bg: #f5f5f5;
-            --grey-text: #666;
-            --color-01: #CD37F7;
-            --color-02: #12FBFE;
-            --color-03: #483092;
-            --color-04: #EC3A94;
-
-            --light: 300;
-            --bold: 600;
-        }
 
         * {
             box-sizing: border-box;
@@ -53,7 +39,7 @@
 
         .modal {
             width: 100%;
-            background: var(--white);
+            background: #ffffff;
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
@@ -68,24 +54,32 @@
         }
 
         .header {
-            background: var(--color-01);
-            color: var(--white);
+            background-color: #FBE4BD;
+            background-image: url('https://dafitistatic.dafiti.com.br/cms/onsite/2025/2025_12_12_12_58_10_background-papel.jpg');
+            background-position: center;
+            background-size: cover;
+            color: #2B3083;
             padding: 20px 40px;
             text-align: center;
             flex-shrink: 0;
         }
 
+        .header img {
+            height: auto;
+            width: 100px;
+        }
+
         .header h1 {
             margin: 0;
             font-size: 18px;
-            line-height: 1.4;
-            font-weight: var(--light);
-            color: var(--white);
+            line-height: 1.1;
+            font-weight: 300;
+            color: #2B3083;
             text-wrap: pretty;
         }
 
         .header h1 b {
-            font-weight: var(--bold);
+            font-weight: 600;
         }
 
         .close-x {
@@ -104,12 +98,12 @@
         }
 
         .content {
-            background-color: var(--black);
-            background-image: url('https://dafitistatic.dafiti.com.br/cms/2025_11_06_15_17_41_bg_inapp.png');
+            background-color: #000000;
+            background-image: url('https://dafitistatic.dafiti.com.br/cms/onsite/2025/2025_12_12_12_58_13_background.jpg');
             background-position: center;
             background-size: cover;
             padding: 20px 16px;
-            color: var(--text);
+            color: #101B24;
             text-align: left;
             overflow-y: auto;
             flex-grow: 1;
@@ -126,8 +120,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            background-color: var(--black);
-            border: 1px solid var(--grey-bg);
+            background-color: #6A0F0F;
+            border: 1px solid #FBE4BD;
             padding: 10px;
             border-radius: 8px;
         }
@@ -152,15 +146,15 @@
         .tier-reward {
             font-size: 12px;
             line-height: 1.3;
-            color: var(--white);
-            font-weight: var(--light);
+            color: #FBE4BD;
+            font-weight: 600;
         }
 
         .notification-prompt {
             text-align: center;
             font-size: 13px;
-            font-weight: var(--light);
-            color: var(--color-02);
+            font-weight: 300;
+            color: #FBE4BD;
             padding: 0 10px;
             margin-top: 16px;
             margin-bottom: 16px;
@@ -168,7 +162,7 @@
         }
 
         .notification-prompt b {
-            font-weight: var(--bold);
+            font-weight: 600;
         }
 
         .rules-container {
@@ -179,7 +173,7 @@
         .rules-toggle {
             font-size: 12px;
             font-weight: 500;
-            color: var(--white);
+            color: #FBE4BD;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
@@ -194,7 +188,7 @@
         }
 
         .rules-toggle:hover {
-            color: var(--grey-text);
+            color: #666666;
         }
 
         .rules-toggle::after {
@@ -209,11 +203,11 @@
 
         .rules-content {
             font-size: 11px;
-            color: var(--grey-text);
+            color: #000000;
             line-height: 1.5;
             margin-top: 8px;
             padding: 10px;
-            background-color: var(--grey-bg);
+            background-color: #FBE4BD;
             border-radius: 8px;
             text-align: left;
         }
@@ -254,8 +248,9 @@
             min-height: 48px;
             border-radius: 999px;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            font-size: 20px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -266,18 +261,18 @@
         }
 
         .btn-primary {
-            color: var(--white);
-            background-image: linear-gradient(to right, #483092, #EC3A94);
+            color: #000000;
+            background-color: #FBE4BD;
             text-transform: uppercase;
         }
 
         .smalltext {
-            color: var(--white);
+            color: #FBE4BD;
             font-size: 9px;
             text-align: center;
             opacity: .5;
             margin: 0;
-            font-weight: var(--light);
+            font-weight: 300;
         }
 
         @keyframes slideUp {
@@ -318,7 +313,7 @@
         <div class="modal-wrap">
             <div class="modal">
                 <button class="close-x" id="closeX" aria-label="Fechar mensagem">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg"
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#000" xmlns="http://www.w3.org/2000/svg"
                         aria-hidden="true">
                         <path
                             d="M18.3 5.71a1 1 0 0 0-1.41 0L12 10.59 7.11 5.7A1 1 0 1 0 5.7 7.11L10.59 12l-4.9 4.89a1 1 0 1 0 1.41 1.41L12 13.41l4.89 4.9a1 1 0 0 0 1.41-1.41L13.41 12l4.9-4.89a1 1 0 0 0-.01-1.4z" />
@@ -326,15 +321,15 @@
                 </button>
 
                 <div class="header">
-                    <h1 id="title">Na Dafiti seu pedido gera <b>BÔNUS</b> na sua <b>próxima compra</b> 🤑</h1>
+                    <img src="https://dafitistatic.dafiti.com.br/cms/onsite/2025/2025_12_12_12_58_16_giftback.png" alt="Cashback">
+                    <h1 id="title">Na dafiti você compra <b>e ganha bônus</b> para o próximo look! 🤑</h1>
                 </div>
 
                 <div class="content">
                     <div class="tiers-container">
                         <div class="tier-card">
                             <div class="tier-icon">
-                                <img src="https://dafitistatic.dafiti.com.br/cms/2025_11_06_14_53_22_R$15OFF.svg"
-                                    alt="15 OFF">
+                                <img src="https://dafitistatic.dafiti.com.br/cms/svg/2025_12_12_12_57_58_15-off.svg" alt="15 OFF">
                             </div>
                             <div class="tier-text">
                                 <span class="tier-range">Em pedidos</span>
@@ -343,8 +338,7 @@
                         </div>
                         <div class="tier-card">
                             <div class="tier-icon">
-                                <img src="https://dafitistatic.dafiti.com.br/cms/2025_11_06_14_53_23_R$30OFF.svg"
-                                    alt="30 OFF">
+                                <img src="https://dafitistatic.dafiti.com.br/cms/svg/2025_12_12_12_58_00_30-off.svg" alt="30 OFF">
                             </div>
                             <div class="tier-text">
                                 <span class="tier-range">Em pedidos</span>
@@ -353,8 +347,7 @@
                         </div>
                         <div class="tier-card">
                             <div class="tier-icon">
-                                <img src="https://dafitistatic.dafiti.com.br/cms/2025_11_06_14_53_24_R$45OFF.svg"
-                                    alt="45 OFF">
+                                <img src="https://dafitistatic.dafiti.com.br/cms/svg/2025_12_12_12_58_03_45-off.svg" alt="45 OFF">
                             </div>
                             <div class="tier-text">
                                 <span class="tier-range">Em pedidos</span>
@@ -363,8 +356,7 @@
                         </div>
                         <div class="tier-card">
                             <div class="tier-icon">
-                                <img src="https://dafitistatic.dafiti.com.br/cms/2025_11_06_14_53_26_R$60OFF.svg"
-                                    alt="60 OFF">
+                                <img src="https://dafitistatic.dafiti.com.br/cms/svg/2025_12_12_12_58_05_60-off.svg" alt="60 OFF">
                             </div>
                             <div class="tier-text">
                                 <span class="tier-range">Em pedidos</span>
@@ -373,8 +365,7 @@
                         </div>
                         <div class="tier-card">
                             <div class="tier-icon">
-                                <img src="https://dafitistatic.dafiti.com.br/cms/2025_11_06_14_53_27_R$75OFF.svg"
-                                    alt="75 OFF">
+                                <img src="https://dafitistatic.dafiti.com.br/cms/svg/2025_12_12_12_58_07_75-off.svg" alt="75 OFF">
                             </div>
                             <div class="tier-text">
                                 <span class="tier-range">Em pedidos</span>
@@ -384,7 +375,7 @@
                     </div>
 
                     <img class="imgmarcas"
-                        src="https://dafitistatic.dafiti.com.br/cms/2025_11_06_13_58_20_Group_26655028.png"
+                        src="https://dafitistatic.dafiti.com.br/cms/onsite/2025/2025_12_11_20_14_50_marcas-cashback.png"
                         alt="Adidas, Mango, Farm e Gap">
 
                     <p class="notification-prompt">
@@ -396,11 +387,8 @@
                             <summary class="rules-toggle" id="rulesToggle"><u>Ver regras completas</u></summary>
                             <div class="rules-content">
                                 <ul>
-                                    <li><b>Duração:</b> A ação é válida para pedidos qualificados realizados até
-                                        31/12/2025, podendo ser encerrada a qualquer momento pela Dafiti sem aviso
-                                        prévio.</li>
-                                    <li><b>Como ganhar?</b> Faça um pedido de R$100 ou mais. Pedidos pagos, não
-                                        cancelados ou inválidos são qualificados.</li>
+                                    <li><b>Duração:</b> A ação é válida para pedidos qualificados realizados até 31/12/2025, podendo ser encerrada a qualquer momento pela Dafiti sem aviso prévio.</li>
+                                    <li><b>Como ganhar?</b> Faça um pedido de R$100 ou mais. Pedidos pagos, não cancelados ou inválidos são qualificados.</li>
                                     <li><b>Qual valor do bônus?</b> Depende do valor final do seu pedido qualificado:
                                         <ul>
                                             <li>R$100 a R$199: Ganhe R$15</li>
@@ -410,21 +398,14 @@
                                             <li>Acima de R$500: Ganhe R$75</li>
                                         </ul>
                                     </li>
-                                    <li><b>Quantos cupons posso ganhar?</b> Você recebe um cupom para CADA pedido
-                                        qualificado, com limite de 3 cupons por faixa de valor durante a campanha.</li>
-                                    <li><b>Quando recebo?</b> Diariamente! Após a confirmação do pedido, enviaremos uma
-                                        notificação (Push/E-mail) em até 24h.</li>
-                                    <li><b>Como usar o cupom?</b> Em um novo pedido com valor mínimo de 6x o valor do
-                                        seu crédito (ex: crédito de R$15 exige pedido mínimo de R$90). Apenas em
-                                        produtos vendidos e entregue pela Dafiti.</li>
-                                    <li><b>Qual a validade?</b> Cada cupom é válido por 15 dias após o recebimento e é
-                                        de **uso único por CPF**.</li>
-                                    <li><b>E se eu devolver algo?</b> Se a devolução fizer o valor final do pedido ficar
-                                        abaixo de R$100, o cupom gerado por ele será invalidado.</li>
+                                    <li><b>Quantos cupons posso ganhar?</b> Você recebe um cupom para CADA pedido qualificado, com limite de 3 cupons por faixa de valor durante a campanha.</li>
+                                    <li><b>Quando recebo?</b> Diariamente! Após a confirmação do pedido, enviaremos uma notificação (Push/E-mail) em até 24h.</li>
+                                    <li><b>Como usar o cupom?</b> Em um novo pedido com valor mínimo de 6x o valor do seu crédito (ex: crédito de R$15 exige pedido mínimo de R$90). Apenas em produtos vendidos e entregue pela Dafiti.</li>
+                                    <li><b>Qual a validade?</b> Cada cupom é válido por 15 dias após o recebimento e é de <b>uso único por CPF</b>.</li>
+                                    <li><b>E se eu devolver algo?</b> Se a devolução fizer o valor final do pedido ficar abaixo de R$100, o cupom gerado por ele será invalidado.</li>
                                     <li><b>Frete:</b> Não está incluído no desconto.</li>
                                 </ul>
-                                <small>Pedido qualificado: valor ≥ R$100 (após descontos promocionais e antes do frete),
-                                    pago, não cancelado ou inválido.</small>
+                                <small>Pedido qualificado: valor ≥ R$100 (após descontos promocionais e antes do frete), pago, não cancelado ou inválido.</small>
                             </div>
                         </details>
                     </div>
